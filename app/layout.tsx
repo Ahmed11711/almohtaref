@@ -5,9 +5,9 @@ import ConditionalFloatingButtons from "@/components/ConditionalFloatingButtons"
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "المحترفون – تخريم وقص الخرسانة بجدة، مكة والطايف | قص خرسانة وفتح كور",
+  title: "المحترفون لقص وتخريم الخرسانة بجدة ومكة والطايف | قص خرسانة وفتح كور",
   description:
-    "المحترفون متخصصون في تخريم وقص الخرسانة بجدة، مكة والطايف. قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة وسرعة عالية. خدمة 24 ساعة.",
+    "المحترفون لقص وتخريم الخرسانة بجدة ومكة والطايف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
   keywords: [
     "قص خرسانة",
     "قص خرسانة بجدة",
@@ -59,7 +59,8 @@ export default function RootLayout({
             __html: `(function(){if(typeof window!=='undefined'&&window.trustedTypes&&window.trustedTypes.createPolicy){try{window.trustedTypes.createPolicy('default',{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(u){return u}})}catch(e){console.warn('Trusted Types policy failed:',e)}}})();`,
           }}
         />
-        {/* Google Tag Manager (AW-17727676448) */}
+
+        {/* Google Tag Manager */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17727676448"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -71,7 +72,100 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {/* JSON-LD Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: `
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "المحترفون لقص وتخريم الخرسانة",
+  "description": "المحترفون متخصصون في قص وتخريم الخرسانة بجدة ومكة والطايف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد، وفتح كور بدقة عالية.",
+  "url": "https://almohtaref-sa.com/",
+  "telephone": "+966548677162",
+  "areaServed": ["جدة", "مكة", "الطايف"],
+  "sameAs": [
+    "https://www.instagram.com/jitu.ux/",
+    "https://www.linkedin.com/in/jitendra-raut/",
+    "https://x.com/jituux"
+  ],
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "جدة",
+    "addressCountry": "SA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 21.543333,
+    "longitude": 39.172779
+  },
+  "department": [
+    {
+      "@type": "LocalBusiness",
+      "name": "المحترفون لقص وتخريم الخرسانة بجدة",
+      "url": "https://almohtaref-sa.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "جدة",
+        "addressCountry": "SA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 21.543333,
+        "longitude": 39.172779
+      },
+      "telephone": "+966548677162"
+    },
+    {
+      "@type": "LocalBusiness",
+      "name": "المحترفون لقص وتخريم الخرسانة بمكة",
+      "url": "https://almohtaref-sa.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "مكة",
+        "addressCountry": "SA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 21.389082,
+        "longitude": 39.857910
+      },
+      "telephone": "+966548677162"
+    },
+    {
+      "@type": "LocalBusiness",
+      "name": "المحترفون لقص وتخريم الخرسانة بالطايف",
+      "url": "https://almohtaref-sa.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "الطايف",
+        "addressCountry": "SA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 21.437273,
+        "longitude": 40.512714
+      },
+      "telephone": "+966548677162"
+    }
+  ],
+  "serviceType": [
+    "قص خرسانة",
+    "تخريم كور",
+    "فتح كور",
+    "قص جدران بالمنشار الليزر",
+    "عمل فتحات المصاعد",
+    "عمل فتحات كور"
+  ]
+}
+            `,
+          }}
+        />
       </head>
+
       <body className="antialiased">
         <a
           href="#main-content"
@@ -79,6 +173,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
+
         <LanguageProvider>
           <Navbar />
           <main id="main-content" tabIndex={-1}>
