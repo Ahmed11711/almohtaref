@@ -48,7 +48,7 @@ export default function Footer() {
 
             {/* Instagram */}
             <Link
-              href="https://www.instagram.com/jitu.ux/"
+              href="https://www.instagram.com"
               target="_blank"
               className="group"
               aria-label="Instagram"
@@ -70,7 +70,7 @@ export default function Footer() {
 
             {/* LinkedIn */}
             <Link
-              href="https://www.linkedin.com/in/jitendra-raut/"
+              href="https://www.linkedin.com"
               target="_blank"
               className="group"
               aria-label="LinkedIn"
@@ -90,7 +90,7 @@ export default function Footer() {
             </Link>
 
             {/* X/Twitter */}
-            <Link href="https://x.com/jituux" target="_blank" className="group" aria-label="X">
+            <Link href="https://x.com" target="_blank" className="group" aria-label="X">
               <svg
                 width="36"
                 height="36"

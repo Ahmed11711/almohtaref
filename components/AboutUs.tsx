@@ -335,8 +335,12 @@ export default function AboutUs() {
               className="inline-flex items-center gap-2 mb-4 sm:mb-6"
             >
               <div className="w-6 sm:w-8 h-px bg-[#FFDD00] origin-left" />
-              <AnimatedText type="fade" delay={0.3}>
-                <span className="text-xs sm:text-sm uppercase tracking-wider text-white/85">{t('aboutUs.hero.subtitle')}</span>
+              <AnimatedText
+                type="fade"
+                delay={0.3}
+                className="text-xs sm:text-sm uppercase tracking-wider text-white/85"
+              >
+                {t('aboutUs.hero.subtitle')}
               </AnimatedText>
               <div className="w-6 sm:w-8 h-px bg-[#FFDD00] origin-right" />
             </motion.div>
@@ -345,15 +349,22 @@ export default function AboutUs() {
                 {t('aboutUs.hero.title')}
               </AnimatedText>
               <br />
-              <AnimatedText type="word" delay={0.6}>
-                <span className="text-[#FFDD00]">{t('aboutUs.hero.titleHighlight')}</span>
+              <AnimatedText
+                type="word"
+                delay={0.6}
+                className="text-[#FFDD00]"
+              >
+                {t('aboutUs.hero.titleHighlight')}
               </AnimatedText>
             </h1>
-            <AnimatedText type="fade" delay={0.8}>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 max-w-[min(48rem,90vw)] mx-auto leading-relaxed px-4 text-overflow-safe" style={{ fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)' }}>
+            <p
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 max-w-[min(48rem,90vw)] mx-auto leading-relaxed px-4 text-overflow-safe"
+              style={{ fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)' }}
+            >
+              <AnimatedText type="fade" delay={0.8} className="inline-block w-full text-center">
                 {t('aboutUs.hero.description')}
-              </p>
-            </AnimatedText>
+              </AnimatedText>
+            </p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1010,11 +1021,11 @@ export default function AboutUs() {
                   {t('aboutUs.cta.title')}
                 </AnimatedText>
               </h2>
-              <AnimatedText type="fade" delay={0.3}>
-                <p className="text-lg md:text-xl text-white/85 mb-8 max-w-2xl mx-auto">
+              <p className="text-lg md:text-xl text-white/85 mb-8 max-w-2xl mx-auto">
+                <AnimatedText type="fade" delay={0.3} className="inline-block w-full text-center">
                   {t('aboutUs.cta.description')}
-                </p>
-              </AnimatedText>
+                </AnimatedText>
+              </p>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}

@@ -56,7 +56,7 @@ export default function RootLayout({
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){if(typeof window!=='undefined'&&window.trustedTypes&&window.trustedTypes.createPolicy){try{window.trustedTypes.createPolicy('default',{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(u){return u}})}catch(e){console.warn('Trusted Types policy failed:',e)}}})();`,
+            __html: `(function(){if(typeof window!=='undefined'&&window.trustedTypes&&window.trustedTypes.createPolicy){var policyConfig={createHTML:function(s){return s;},createScript:function(s){return s;},createScriptURL:function(u){return u;}};var policyNames=['default','nextjs#bundler','nextjs#app-renderer','nextjs#provision'];policyNames.forEach(function(name){try{window.trustedTypes.createPolicy(name,policyConfig);}catch(e){if(!(e instanceof DOMException))console.warn('Trusted Types policy failed:',e);}});}})();`,
           }}
         />
 
