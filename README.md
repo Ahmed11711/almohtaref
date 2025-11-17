@@ -103,9 +103,7 @@ npm start
 - The design is pixel-perfect based on the original Framer site
 - Navbar animations and text animations are fully functional
 
-## License
 
-This project is a clone for educational/portfolio purposes.
 
 
 
