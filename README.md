@@ -96,13 +96,6 @@ npm run build
 npm start
 ```
 
-## Notes
-
-- The hero animation uses a screen recording approach as requested - the animation structure is in place for you to replace with your video
-- All image placeholders are ready for your actual images
-- The design is pixel-perfect based on the original Framer site
-- Navbar animations and text animations are fully functional
-
 
 
 
