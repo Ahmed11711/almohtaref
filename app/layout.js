@@ -6,7 +6,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 export const metadata = {
   title: "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
   description:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة. للتواصل: 966548677162",
   keywords: [
     "قص خرسانة",
     "قص خرسانة بجدة",
@@ -47,6 +47,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
       <head>
+        {/* Meta Tag للهاتف */}
+        <meta name="telephone" content="966548677162" />
+
         {/* TrustedTypes Fix */}
         <script
           suppressHydrationWarning
@@ -68,7 +71,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Google Analytics NEW (Added) */}
+        {/* Google Analytics */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWZR5K6JW7"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -89,7 +92,7 @@ export default function RootLayout({ children }) {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "المحترف لقص وتخريم الخرسانة",
-  "description": "المحترف متخصص في قص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد، وفتح كور بدقة عالية.",
+  "description": "المحترف متخصص في قص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد، وفتح كور بدقة عالية. للتواصل: 966548677162",
   "url": "https://almohtaref-sa.com/",
   "telephone": "+966548677162",
   "areaServed": ["جدة", "مكة", "الطائف"],
