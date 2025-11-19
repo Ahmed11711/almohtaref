@@ -6,9 +6,9 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title:
-    "المحترفون لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
   description:
-    "المحترفون لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
   keywords: [
     "قص خرسانة",
     "قص خرسانة جدة",
@@ -52,11 +52,8 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-
-              // Google Ads Conversion ID
               gtag('config', 'AW-17727676448');
 
-              // Tracking Call Clicks
               function trackCall(){
                 gtag('event', 'call_click', {
                   'event_category': 'engagement',
@@ -69,6 +66,23 @@ export default function RootLayout({
           }}
         />
 
+        {/* Google Analytics (Your Added Code) */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-KWZR5K6JW7"
+        ></script>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-KWZR5K6JW7');
+            `,
+          }}
+        />
+
         {/* JSON-LD Schema */}
         <script
           type="application/ld+json"
@@ -76,7 +90,7 @@ export default function RootLayout({
             __html: `{
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "المحترفون لقص وتخريم الخرسانة",
+  "name": "المحترف لقص وتخريم الخرسانة",
   "description": "خدمات قص وتخريم الخرسانة في جدة ومكة والطائف. قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتح كور.",
   "url": "https://almohtaref-sa.com/",
   "telephone": "+966548677162",
@@ -106,19 +120,19 @@ export default function RootLayout({
   "department": [
     {
       "@type": "LocalBusiness",
-      "name": "المحترفون لقص وتخريم الخرسانة بجدة",
+      "name": "المحترف لقص وتخريم الخرسانة بجدة",
       "telephone": "+966548677162",
       "address": { "@type": "PostalAddress", "addressRegion": "جدة", "addressCountry": "SA" }
     },
     {
       "@type": "LocalBusiness",
-      "name": "المحترفون لقص وتخريم الخرسانة بمكة",
+      "name": "المحترف لقص وتخريم الخرسانة بمكة",
       "telephone": "+966548677162",
       "address": { "@type": "PostalAddress", "addressRegion": "مكة", "addressCountry": "SA" }
     },
     {
       "@type": "LocalBusiness",
-      "name": "المحترفون لقص وتخريم الخرسانة بالطائف",
+      "name": "المحترف لقص وتخريم الخرسانة بالطائف",
       "telephone": "+966548677162",
       "address": { "@type": "PostalAddress", "addressRegion": "الطايف", "addressCountry": "SA" }
     }
