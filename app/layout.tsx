@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title:
     "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
   description:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة. للتواصل: 966548677162",
   keywords: [
     "قص خرسانة",
     "قص خرسانة جدة",
@@ -40,12 +40,14 @@ export default function RootLayout({
           }}
         />
 
+        {/* Meta Tag للهاتف */}
+        <meta name="telephone" content="966548677162" />
+
         {/* Google Ads Global Tag */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17727676448"
         ></script>
-
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -66,12 +68,11 @@ export default function RootLayout({
           }}
         />
 
-        {/* Google Analytics (Your Added Code) */}
+        {/* Google Analytics */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-KWZR5K6JW7"
         ></script>
-
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -91,7 +92,7 @@ export default function RootLayout({
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "المحترف لقص وتخريم الخرسانة",
-  "description": "خدمات قص وتخريم الخرسانة في جدة ومكة والطائف. قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتح كور.",
+  "description": "خدمات قص وتخريم الخرسانة في جدة ومكة والطائف. قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتح كور. للتواصل: 966548677162",
   "url": "https://almohtaref-sa.com/",
   "telephone": "+966548677162",
   "priceRange": "$$",
@@ -105,18 +106,8 @@ export default function RootLayout({
     "latitude": 21.543333,
     "longitude": 39.172779
   },
-  "areaServed": [
-    "جدة",
-    "مكة",
-    "الطائف"
-  ],
-  "serviceType": [
-    "قص خرسانة",
-    "تخريم كور",
-    "فتح كور",
-    "قص جدران بالمنشار الليزر",
-    "عمل فتحات مصاعد"
-  ],
+  "areaServed": ["جدة", "مكة", "الطائف"],
+  "serviceType": ["قص خرسانة", "تخريم كور", "فتح كور", "قص جدران بالمنشار الليزر", "عمل فتحات مصاعد"],
   "department": [
     {
       "@type": "LocalBusiness",
