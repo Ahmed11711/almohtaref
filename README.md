@@ -1,6 +1,6 @@
-# ALMOHTAREF - Next.js Clone
+# ALMOHTAREF 
 
-A pixel-perfect clone of the ALMOHTAREF website built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
+
 
 ## Features
 
