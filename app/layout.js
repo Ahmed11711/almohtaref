@@ -4,9 +4,9 @@ import ConditionalFloatingButtons from "@/components/ConditionalFloatingButtons"
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata = {
-  title: "المحترفون لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
+  title: "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
   description:
-    "المحترفون لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة.",
   keywords: [
     "قص خرسانة",
     "قص خرسانة بجدة",
@@ -39,7 +39,7 @@ export const metadata = {
     "قص جدران بالمنشار الليزر الطائف",
     "فتح كور الطائف",
     "عمل فتحات للمصاعد الطائف",
-    "عمل فتحات كور الطائف"
+    "عمل فتحات كور الطائف",
   ],
 };
 
@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Google Tag Manager */}
+        {/* Google Ads Tag */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17727676448"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -68,6 +68,19 @@ export default function RootLayout({ children }) {
           }}
         />
 
+        {/* Google Analytics NEW (Added) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWZR5K6JW7"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-KWZR5K6JW7');
+            `,
+          }}
+        />
+
         {/* JSON-LD Schema */}
         <script
           type="application/ld+json"
@@ -75,16 +88,11 @@ export default function RootLayout({ children }) {
             __html: `{
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "المحترفون لقص وتخريم الخرسانة",
-  "description": "المحترفون متخصصون في قص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد، وفتح كور بدقة عالية.",
+  "name": "المحترف لقص وتخريم الخرسانة",
+  "description": "المحترف متخصص في قص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد، وفتح كور بدقة عالية.",
   "url": "https://almohtaref-sa.com/",
   "telephone": "+966548677162",
   "areaServed": ["جدة", "مكة", "الطائف"],
-  "sameAs": [
-    "https://www.instagram.com/jitu.ux/",
-    "https://www.linkedin.com/in/jitendra-raut/",
-    "https://x.com/jituux"
-  ],
   "priceRange": "$$",
   "address": {
     "@type": "PostalAddress",
@@ -99,7 +107,7 @@ export default function RootLayout({ children }) {
   "department": [
     {
       "@type": "LocalBusiness",
-      "name": "المحترفون لقص وتخريم الخرسانة بجدة",
+      "name": "المحترف لقص وتخريم الخرسانة بجدة",
       "url": "https://almohtaref-sa.com/",
       "address": {
         "@type": "PostalAddress",
@@ -115,7 +123,7 @@ export default function RootLayout({ children }) {
     },
     {
       "@type": "LocalBusiness",
-      "name": "المحترفون لقص وتخريم الخرسانة بمكة",
+      "name": "المحترف لقص وتخريم الخرسانة بمكة",
       "url": "https://almohtaref-sa.com/",
       "address": {
         "@type": "PostalAddress",
@@ -131,7 +139,7 @@ export default function RootLayout({ children }) {
     },
     {
       "@type": "LocalBusiness",
-      "name": "المحترفون لقص وتخريم الخرسانة بالطائف",
+      "name": "المحترف لقص وتخريم الخرسانة بالطائف",
       "url": "https://almohtaref-sa.com/",
       "address": {
         "@type": "PostalAddress",
