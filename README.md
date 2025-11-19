@@ -89,12 +89,6 @@ Modify the color scheme in `tailwind.config.ts` or update the classes in compone
 ### Animation Timing
 Adjust animation delays and durations in the Framer Motion `transition` props.
 
-## Build for Production
-
-```bash
-npm run build
-npm start
-```
 
 
 
