@@ -86,9 +86,6 @@ Replace the placeholder divs in the Hero component with actual images:
 ### Adjusting Colors
 Modify the color scheme in `tailwind.config.ts` or update the classes in components.
 
-### Animation Timing
-Adjust animation delays and durations in the Framer Motion `transition` props.
-
 
 
 
