@@ -83,8 +83,6 @@ Replace the placeholder divs in the Hero component with actual images:
 <Image src="/path-to-image.jpg" alt="Description" fill className="object-cover" />
 ```
 
-### Adjusting Colors
-Modify the color scheme in `tailwind.config.ts` or update the classes in components.
 
 
 
