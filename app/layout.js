@@ -6,7 +6,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 export const metadata = {
   title: "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
   description:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة. للتواصل: 966548677162",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. متخصصون في قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وكور باحترافية عالية. أفضل شركة قص خرسانة بجدة ومكة والطائف. تواصل معنا: 966548677162",
   keywords: [
     "قص خرسانة",
     "قص خرسانة بجدة",
@@ -40,6 +40,21 @@ export const metadata = {
     "فتح كور الطائف",
     "عمل فتحات للمصاعد الطائف",
     "عمل فتحات كور الطائف",
+
+    // كلمات SEO إضافية قوية
+    "أفضل شركة قص خرسانة",
+    "أفضل شركة تخريم خرسانة",
+    "أفضل شركة فتح كور",
+    "أرخص شركة قص خرسانة",
+    "قص خرسانة احترافي",
+    "تخريم كور احترافي",
+    "قص خرسانة بالرياض",
+    "تخريم خرسانة بالرياض",
+    "فتح كور بالرياض",
+    "قص خرسانة بالمنشار",
+    "قص خرسانة بدون اهتزاز",
+    "قص خرسانة سريع",
+    "شركة قص خرسانة معتمدة"
   ],
 };
 
@@ -92,71 +107,21 @@ export default function RootLayout({ children }) {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "المحترف لقص وتخريم الخرسانة",
-  "description": "المحترف متخصص في قص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد، وفتح كور بدقة عالية. للتواصل: 966548677162",
+  "description": "أفضل شركة متخصصة في قص وتخريم الخرسانة في جدة ومكة والطائف. خدمات قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتح كور باحترافية عالية.",
   "url": "https://almohtaref-sa.com/",
   "telephone": "+966548677162",
-  "areaServed": ["جدة", "مكة", "الطائف"],
   "priceRange": "$$",
   "address": {
     "@type": "PostalAddress",
     "addressRegion": "جدة",
     "addressCountry": "SA"
   },
+  "areaServed": ["جدة", "مكة", "الطائف"],
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": 21.543333,
     "longitude": 39.172779
   },
-  "department": [
-    {
-      "@type": "LocalBusiness",
-      "name": "المحترف لقص وتخريم الخرسانة بجدة",
-      "url": "https://almohtaref-sa.com/",
-      "address": {
-        "@type": "PostalAddress",
-        "addressRegion": "جدة",
-        "addressCountry": "SA"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 21.543333,
-        "longitude": 39.172779
-      },
-      "telephone": "+966548677162"
-    },
-    {
-      "@type": "LocalBusiness",
-      "name": "المحترف لقص وتخريم الخرسانة بمكة",
-      "url": "https://almohtaref-sa.com/",
-      "address": {
-        "@type": "PostalAddress",
-        "addressRegion": "مكة",
-        "addressCountry": "SA"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 21.389082,
-        "longitude": 39.857910
-      },
-      "telephone": "+966548677162"
-    },
-    {
-      "@type": "LocalBusiness",
-      "name": "المحترف لقص وتخريم الخرسانة بالطائف",
-      "url": "https://almohtaref-sa.com/",
-      "address": {
-        "@type": "PostalAddress",
-        "addressRegion": "الطائف",
-        "addressCountry": "SA"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 21.437273,
-        "longitude": 40.512714
-      },
-      "telephone": "+966548677162"
-    }
-  ],
   "serviceType": [
     "قص خرسانة",
     "تخريم كور",
@@ -164,6 +129,26 @@ export default function RootLayout({ children }) {
     "قص جدران بالمنشار الليزر",
     "عمل فتحات المصاعد",
     "عمل فتحات كور"
+  ],
+  "department": [
+    {
+      "@type": "LocalBusiness",
+      "name": "المحترف لقص وتخريم الخرسانة بجدة",
+      "address": { "@type": "PostalAddress", "addressRegion": "جدة", "addressCountry": "SA" },
+      "telephone": "+966548677162"
+    },
+    {
+      "@type": "LocalBusiness",
+      "name": "المحترف لقص وتخريم الخرسانة بمكة",
+      "address": { "@type": "PostalAddress", "addressRegion": "مكة", "addressCountry": "SA" },
+      "telephone": "+966548677162"
+    },
+    {
+      "@type": "LocalBusiness",
+      "name": "المحترف لقص وتخريم الخرسانة بالطائف",
+      "address": { "@type": "PostalAddress", "addressRegion": "الطائف", "addressCountry": "SA" },
+      "telephone": "+966548677162"
+    }
   ]
 }`,
           }}
