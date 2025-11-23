@@ -6,51 +6,109 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | قص خرسانة وفتح كور",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | Almohtaref Concrete Cutting & Core Drilling",
   description:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. خدمات قص الخرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتحات كور بدقة عالية وسرعة تنفيذ. خدمة 24 ساعة. للتواصل: 966548677162",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف — قص خرسانة، تخريم كور، فتحات مصاعد وجدران بالمنشار الليزري. خبرة واحترافية 24 ساعة. تواصل الآن: +966534309221 | Almohtaref Concrete Cutting & Core Drilling in Jeddah, Makkah & Taif. Professional concrete cutting, core drilling & wall sawing services. Call Now: +966534309221",
+
   keywords: [
-    "المحترف",
-    "المحترف لقص الخرسانة",
-    "قص خرسانة",
+    // Arabic – جدة
     "قص خرسانة بجدة",
-    "قص خرسانة في جدة",
-    "تخريم خرسانة",
     "تخريم خرسانة بجدة",
-    "تخريم خرسانة في جدة",
-    "قص جدران بالمنشار الليزر",
-    "قص جدران بالمنشار الليزر بجدة",
-    "عمل فتحات للمصاعد",
-    "عمل فتحات للمصاعد بجدة",
-    "عمل فتحات كور",
-    "عمل فتحات كور بجدة",
-    "فتح كور",
     "فتح كور بجدة",
-    "شركة قص خرسانة",
-    "شركة قص خرسانة بجدة",
-    "شركة تخريم خرسانة",
-    "شركة تخريم خرسانة بجدة",
-    "قص وتخريم الخرسانة",
+    "قص جدران بالمنشار بجدة",
+    "قص خرسانة ليزري بجدة",
+    "قص خرسانة بدون اهتزاز بجدة",
+    "فتح كور ليزري بجدة",
     "قص وتخريم الخرسانة بجدة",
-    "قص خرسانة مكة",
-    "تخريم خرسانة مكة",
-    "قص جدران بالمنشار الليزر مكة",
-    "فتح كور مكة",
-    "عمل فتحات للمصاعد مكة",
-    "عمل فتحات كور مكة",
-    "قص خرسانة الطايف",
-    "تخريم خرسانة الطايف",
-    "قص جدران بالمنشار الليزر الطايف",
-    "فتح كور الطايف",
-    "عمل فتحات للمصاعد الطايف",
-    "عمل فتحات كور الطايف",
-    "أفضل شركة قص خرسانة",
-    "أفضل شركة قص وتخريم خرسانة",
-    "أفضل شركة فتح كور",
-    "أرخص شركة قص خرسانة",
-    "شركة قص خرسانة معتمدة",
-    "قص خرسانة بالمنشار",
-    "قص خرسانة بالرياض" 
+    "أفضل شركة قص خرسانة بجدة",
+    "أفضل شركة تخريم خرسانة بجدة",
+    "عمل فتحات مصاعد بجدة",
+
+    // Arabic – مكة
+    "قص خرسانة بمكة",
+    "تخريم خرسانة بمكة",
+    "فتح كور بمكة",
+    "قص جدران بالمنشار بمكة",
+    "قص خرسانة ليزري بمكة",
+    "قص خرسانة بدون اهتزاز بمكة",
+    "فتح كور ليزري بمكة",
+    "قص وتخريم الخرسانة بمكة",
+    "أفضل شركة قص خرسانة بمكة",
+    "أفضل شركة تخريم خرسانة بمكة",
+    "عمل فتحات مصاعد بمكة",
+
+    // Arabic – الطائف
+    "قص خرسانة بالطائف",
+    "تخريم خرسانة بالطائف",
+    "فتح كور بالطائف",
+    "قص جدران بالمنشار بالطائف",
+    "قص خرسانة ليزري بالطائف",
+    "قص خرسانة بدون اهتزاز بالطائف",
+    "فتح كور ليزري بالطائف",
+    "قص وتخريم الخرسانة بالطائف",
+    "أفضل شركة قص خرسانة بالطائف",
+    "أفضل شركة تخريم خرسانة بالطائف",
+    "عمل فتحات مصاعد بالطائف",
+
+    // Arabic – السعودية
+    "قص خرسانة بالسعودية",
+    "تخريم خرسانة بالسعودية",
+    "قص وتخريم خرسانة بالسعودية",
+    "فتح كور بالسعودية",
+    "قص جدران بالمنشار بالسعودية",
+    "قص خرسانة بالسعودية جدة مكة الطائف",
+    "شركة قص خرسانة في السعودية",
+    "شركة تخريم خرسانة في السعودية",
+    "قص ليزري للخرسانة بالسعودية",
+
+    // English – Jeddah
+    "Concrete Cutting Jeddah",
+    "Concrete Core Drilling Jeddah",
+    "Core Drilling in Jeddah",
+    "Wall Sawing Jeddah",
+    "Laser Concrete Cutting Jeddah",
+    "Diamond Cutting Jeddah",
+    "Concrete Opening Jeddah",
+    "Concrete Contractor Jeddah",
+    "Best Concrete Cutting Jeddah",
+    "Core Drilling Company Jeddah",
+
+    // English – Makkah
+    "Concrete Cutting Makkah",
+    "Concrete Core Drilling Makkah",
+    "Core Drilling in Makkah",
+    "Wall Sawing Makkah",
+    "Laser Concrete Cutting Makkah",
+    "Diamond Cutting Makkah",
+    "Concrete Opening Makkah",
+    "Concrete Contractor Makkah",
+    "Best Concrete Cutting Makkah",
+    "Core Drilling Company Makkah",
+
+    // English – Taif
+    "Concrete Cutting Taif",
+    "Concrete Core Drilling Taif",
+    "Core Drilling in Taif",
+    "Wall Sawing Taif",
+    "Laser Concrete Cutting Taif",
+    "Diamond Cutting Taif",
+    "Concrete Opening Taif",
+    "Concrete Contractor Taif",
+    "Best Concrete Cutting Taif",
+    "Core Drilling Company Taif",
+
+    // English – Saudi Arabia
+    "Concrete Cutting Saudi Arabia",
+    "Core Drilling Saudi Arabia",
+    "Concrete Coring Saudi Arabia",
+    "Wall Sawing Saudi Arabia",
+    "Laser Concrete Cutting Saudi Arabia",
+    "Diamond Concrete Cutting Saudi Arabia",
+    "Concrete Contractor Saudi Arabia",
+    "Best Concrete Cutting Company Saudi Arabia",
+    "Core Drilling Company Saudi Arabia",
+    "Concrete Cutting Near Me",
+    "Concrete Coring Service Saudi Arabia",
   ],
 
   alternates: {
@@ -58,11 +116,12 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "المحترف لقص وتخريم الخرسانة | جدة مكة الطائف",
+    title:
+      "Almohtaref Concrete Cutting & Core Drilling | المحترف لقص وتخريم الخرسانة",
     description:
-      "خدمات قص وتخريم الخرسانة بجدة ومكة والطائف. قص خرسانة، تخريم كور، قص منشار ليزر، فتحات مصاعد وكور.",
+      "Concrete cutting & core drilling in Jeddah, Makkah & Taif. Professional concrete services. Call Now: +966534309221",
     url: "https://almohtaref-sa.com/",
-    siteName: "المحترف لقص وتخريم الخرسانة",
+    siteName: "Almohtaref Concrete Cutting",
     locale: "ar_SA",
     type: "website",
   },
@@ -84,7 +143,7 @@ export default function RootLayout({
           }}
         />
 
-        <meta name="telephone" content="966548677162" />
+        <meta name="telephone" content="966534309221" />
 
         {/* Google Ads */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17727676448"></script>
@@ -121,7 +180,7 @@ export default function RootLayout({
           }}
         />
 
-        {/* JSON-LD Schema */}
+        {/* JSON-LD SCHEMA */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -131,7 +190,7 @@ export default function RootLayout({
   "name": "المحترف لقص وتخريم الخرسانة",
   "description": "خدمات قص وتخريم الخرسانة في جدة ومكة والطائف. قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتح كور.",
   "url": "https://almohtaref-sa.com/",
-  "telephone": "+966548677162",
+  "telephone": "+966534309221",
   "priceRange": "$$",
   "address": {
     "@type": "PostalAddress",
@@ -158,20 +217,20 @@ export default function RootLayout({
     {
       "@type": "LocalBusiness",
       "name": "المحترف لقص وتخريم الخرسانة بجدة",
-      "telephone": "+966548677162",
+      "telephone": "+966534309221",
       "address": { "@type": "PostalAddress", "addressRegion": "جدة", "addressCountry": "SA" }
     },
     {
       "@type": "LocalBusiness",
       "name": "المحترف لقص وتخريم الخرسانة بمكة",
-      "telephone": "+966548677162",
+      "telephone": "+966534309221",
       "address": { "@type": "PostalAddress", "addressRegion": "مكة", "addressCountry": "SA" }
     },
     {
       "@type": "LocalBusiness",
       "name": "المحترف لقص وتخريم الخرسانة بالطائف",
-      "telephone": "+966548677162",
-      "address": { "@type": "PostalAddress", "addressRegion": "الطايف", "addressCountry": "SA" }
+      "telephone": "+966534309221",
+      "address": { "@type": "PostalAddress", "addressRegion": "الطائف", "addressCountry": "SA" }
     }
   ]
 }`,
