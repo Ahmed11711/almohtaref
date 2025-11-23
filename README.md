@@ -60,30 +60,6 @@ almohtaref/
 └── package.json
 ```
 
-## Key Components
-
-### Navbar
-- Fixed position with scroll-based background opacity
-- Smooth entrance animation
-- Responsive design
-
-### Hero Section
-- Letter-by-letter text animation
-- Background image placeholders (ready for your images)
-- Smooth scroll animations
-
-### Text Animation
-The hero text animation splits each word into individual letters and animates them sequentially. You can customize the animation timing in `components/Hero.tsx`.
-
-## Customization
-
-### Adding Images
-Replace the placeholder divs in the Hero component with actual images:
-```tsx
-<Image src="/path-to-image.jpg" alt="Description" fill className="object-cover" />
-```
-
-
 
 
 
