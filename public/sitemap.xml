@@ -3,37 +3,59 @@
 
   <url>
     <loc>https://almohtaref-sa.com/</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://almohtaref-sa.com/about</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-03-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://almohtaref-sa.com/services</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://almohtaref-sa.com/projects</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-03-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://almohtaref-sa.com/contact</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-03-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- صفحات المدن (مهمة جدًا للظهور) -->
+  <url>
+    <loc>https://almohtaref-sa.com/concrete-cutting-jeddah</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://almohtaref-sa.com/concrete-cutting-makkah</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://almohtaref-sa.com/concrete-cutting-taif</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
 </urlset>
