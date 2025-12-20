@@ -5,252 +5,172 @@ import ConditionalFloatingButtons from "@/components/ConditionalFloatingButtons"
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
-  title:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | Almohtaref Concrete Cutting & Core Drilling",
+  metadataBase: new URL("https://almohtaref-sa.com"),
+
+  title: {
+    default:
+      "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف | Almohtaref Concrete Cutting",
+    template: "%s | المحترف لقص وتخريم الخرسانة",
+  },
+
   description:
-    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف — قص خرسانة، تخريم كور، فتحات مصاعد وجدران بالمنشار الليزري. خبرة واحترافية 24 ساعة. تواصل الآن: +966534309221 | Almohtaref Concrete Cutting & Core Drilling in Jeddah, Makkah & Taif. Professional concrete cutting, core drilling & wall sawing services. Call Now: +966534309221",
+    "المحترف لقص وتخريم الخرسانة بجدة ومكة والطائف. قص خرسانة، تخريم كور، فتح فتحات مصاعد وجدران باستخدام المناشير الليزرية الحديثة. خدمة 24 ساعة. اتصل الآن: +966534309221",
 
   keywords: [
-    // Arabic – جدة
+    "المحترف",
+    "شركة المحترف",
+    "المحترف لقص وتخريم الخرسانة",
+    "Almohtaref",
+    "Almohtaref Concrete Cutting",
+    "Almohtaref Core Drilling",
+
+    "قص وتخريم الخرسانة",
+    "قص خرسانة",
+    "تخريم خرسانة",
+    "فتح كور",
+    "فتح فتحات خرسانية",
+    "قص جدران خرسانية",
+    "قص بلاطات خرسانية",
+    "قص خرسانة ليزري",
+    "قص خرسانة بدون اهتزاز",
+    "قص خرسانة بالمنشار",
+    "قص خرسانة بالواير",
+    "تخريم خرسانة بالليزر",
+    "فتح فتحات مصاعد",
+    "قص خرسانة للمصاعد",
+
     "قص خرسانة بجدة",
     "تخريم خرسانة بجدة",
     "فتح كور بجدة",
-    "قص جدران بالمنشار بجدة",
-    "قص خرسانة ليزري بجدة",
-    "قص خرسانة بدون اهتزاز بجدة",
-    "فتح كور ليزري بجدة",
-    "قص وتخريم الخرسانة بجدة",
+    "قص جدران بجدة",
+    "قص بلاطات بجدة",
     "أفضل شركة قص خرسانة بجدة",
-    "أفضل شركة تخريم خرسانة بجدة",
-    "عمل فتحات مصاعد بجدة",
 
-    // Arabic – مكة
     "قص خرسانة بمكة",
     "تخريم خرسانة بمكة",
     "فتح كور بمكة",
-    "قص جدران بالمنشار بمكة",
-    "قص خرسانة ليزري بمكة",
-    "قص خرسانة بدون اهتزاز بمكة",
-    "فتح كور ليزري بمكة",
-    "قص وتخريم الخرسانة بمكة",
+    "قص جدران بمكة",
     "أفضل شركة قص خرسانة بمكة",
-    "أفضل شركة تخريم خرسانة بمكة",
-    "عمل فتحات مصاعد بمكة",
 
-    // Arabic – الطائف
     "قص خرسانة بالطائف",
     "تخريم خرسانة بالطائف",
     "فتح كور بالطائف",
-    "قص جدران بالمنشار بالطائف",
-    "قص خرسانة ليزري بالطائف",
-    "قص خرسانة بدون اهتزاز بالطائف",
-    "فتح كور ليزري بالطائف",
-    "قص وتخريم الخرسانة بالطائف",
+    "قص جدران بالطائف",
     "أفضل شركة قص خرسانة بالطائف",
-    "أفضل شركة تخريم خرسانة بالطائف",
-    "عمل فتحات مصاعد بالطائف",
 
-    // Arabic – السعودية
     "قص خرسانة بالسعودية",
     "تخريم خرسانة بالسعودية",
-    "قص وتخريم خرسانة بالسعودية",
-    "فتح كور بالسعودية",
-    "قص جدران بالمنشار بالسعودية",
-    "قص خرسانة بالسعودية جدة مكة الطائف",
-    "شركة قص خرسانة في السعودية",
-    "شركة تخريم خرسانة في السعودية",
-    "قص ليزري للخرسانة بالسعودية",
+    "أفضل شركة قص خرسانة بالسعودية",
 
-    // English – Jeddah
+    "Concrete Cutting",
     "Concrete Cutting Jeddah",
-    "Concrete Core Drilling Jeddah",
-    "Core Drilling in Jeddah",
-    "Wall Sawing Jeddah",
-    "Laser Concrete Cutting Jeddah",
-    "Diamond Cutting Jeddah",
-    "Concrete Opening Jeddah",
-    "Concrete Contractor Jeddah",
-    "Best Concrete Cutting Jeddah",
-    "Core Drilling Company Jeddah",
-
-    // English – Makkah
     "Concrete Cutting Makkah",
-    "Concrete Core Drilling Makkah",
-    "Core Drilling in Makkah",
-    "Wall Sawing Makkah",
-    "Laser Concrete Cutting Makkah",
-    "Diamond Cutting Makkah",
-    "Concrete Opening Makkah",
-    "Concrete Contractor Makkah",
-    "Best Concrete Cutting Makkah",
-    "Core Drilling Company Makkah",
-
-    // English – Taif
     "Concrete Cutting Taif",
-    "Concrete Core Drilling Taif",
-    "Core Drilling in Taif",
-    "Wall Sawing Taif",
-    "Laser Concrete Cutting Taif",
-    "Diamond Cutting Taif",
-    "Concrete Opening Taif",
-    "Concrete Contractor Taif",
-    "Best Concrete Cutting Taif",
-    "Core Drilling Company Taif",
-
-    // English – Saudi Arabia
     "Concrete Cutting Saudi Arabia",
-    "Core Drilling Saudi Arabia",
-    "Concrete Coring Saudi Arabia",
-    "Wall Sawing Saudi Arabia",
-    "Laser Concrete Cutting Saudi Arabia",
-    "Diamond Concrete Cutting Saudi Arabia",
-    "Concrete Contractor Saudi Arabia",
-    "Best Concrete Cutting Company Saudi Arabia",
-    "Core Drilling Company Saudi Arabia",
-    "Concrete Cutting Near Me",
-    "Concrete Coring Service Saudi Arabia",
+    "Core Drilling",
+    "Laser Concrete Cutting",
+    "Diamond Concrete Cutting",
   ],
 
   alternates: {
     canonical: "https://almohtaref-sa.com/",
   },
 
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
   openGraph: {
     title:
-      "Almohtaref Concrete Cutting & Core Drilling | المحترف لقص وتخريم الخرسانة",
+      "المحترف لقص وتخريم الخرسانة | Concrete Cutting & Core Drilling",
     description:
-      "Concrete cutting & core drilling in Jeddah, Makkah & Taif. Professional concrete services. Call Now: +966534309221",
+      "Concrete cutting & core drilling services in Jeddah, Makkah & Taif. Call +966534309221",
     url: "https://almohtaref-sa.com/",
-    siteName: "Almohtaref Concrete Cutting",
+    siteName: "المحترف لقص وتخريم الخرسانة",
     locale: "ar_SA",
     type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "المحترف لقص وتخريم الخرسانة",
+    description:
+      "أفضل شركة قص وتخريم خرسانة بالسعودية – تواصل الآن",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ar" dir="rtl">
       <head>
-        {/* Trusted Types Fix */}
-        <script
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: `(function(){if(typeof window!=='undefined'&&window.trustedTypes&&window.trustedTypes.createPolicy){var p={createHTML:s=>s,createScript:s=>s,createScriptURL:s=>s};['default','nextjs#bundler','nextjs#app-renderer','nextjs#provision'].forEach(n=>{try{window.trustedTypes.createPolicy(n,p);}catch(e){}});}})();`,
-          }}
-        />
-
-        <meta name="telephone" content="966534309221" />
-
-        {/* Google Ads */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17727676448"></script>
+        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17727676448');
-
-              function trackCall(){
-                gtag('event', 'call_click', {
-                  'event_category': 'engagement',
-                  'event_label': 'phone_click',
-                  'value': 1
-                });
-              }
-              window.trackCall = trackCall;
-            `,
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KQXKSZCV');
+          `,
           }}
         />
 
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWZR5K6JW7"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-KWZR5K6JW7');
-            `,
-          }}
-        />
-
-        {/* JSON-LD SCHEMA */}
+        {/* Local Business Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: `{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "المحترف لقص وتخريم الخرسانة",
-  "description": "خدمات قص وتخريم الخرسانة في جدة ومكة والطائف. قص خرسانة، تخريم كور، قص جدران بالمنشار الليزر، فتحات مصاعد وفتح كور.",
-  "url": "https://almohtaref-sa.com/",
-  "telephone": "+966534309221",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "addressRegion": "جدة",
-    "addressCountry": "SA"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 21.543333,
-    "longitude": 39.172779
-  },
-  "areaServed": ["جدة", "مكة", "الطائف"],
-  "sameAs": [
-    "https://almohtaref-sa.com/"
-  ],
-  "serviceType": [
-    "قص خرسانة",
-    "تخريم كور",
-    "فتح كور",
-    "قص جدران بالمنشار الليزر",
-    "عمل فتحات مصاعد"
-  ],
-  "department": [
-    {
-      "@type": "LocalBusiness",
-      "name": "المحترف لقص وتخريم الخرسانة بجدة",
-      "telephone": "+966534309221",
-      "address": { "@type": "PostalAddress", "addressRegion": "جدة", "addressCountry": "SA" }
-    },
-    {
-      "@type": "LocalBusiness",
-      "name": "المحترف لقص وتخريم الخرسانة بمكة",
-      "telephone": "+966534309221",
-      "address": { "@type": "PostalAddress", "addressRegion": "مكة", "addressCountry": "SA" }
-    },
-    {
-      "@type": "LocalBusiness",
-      "name": "المحترف لقص وتخريم الخرسانة بالطائف",
-      "telephone": "+966534309221",
-      "address": { "@type": "PostalAddress", "addressRegion": "الطائف", "addressCountry": "SA" }
-    }
-  ]
-}`,
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "المحترف لقص وتخريم الخرسانة",
+              "url": "https://almohtaref-sa.com",
+              "telephone": "+966534309221",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "SA",
+                "addressRegion": "Makkah",
+              },
+              "areaServed": ["Jeddah", "Makkah", "Taif"],
+              "openingHours": "Mo-Su 00:00-23:59",
+            }),
           }}
         />
       </head>
 
       <body className="antialiased">
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KQXKSZCV"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-yellow-400 focus:text-black focus:font-bold focus:rounded focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-yellow-400 focus:text-black focus:rounded"
         >
           تخطّي إلى المحتوى
         </a>
 
         <LanguageProvider>
           <Navbar />
-          <main id="main-content" tabIndex={-1}>
-            {children}
-          </main>
+          <main id="main-content">{children}</main>
           <ConditionalFloatingButtons />
         </LanguageProvider>
       </body>
