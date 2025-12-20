@@ -17,6 +17,7 @@ const navLinks = [
   { key: 'about', href: '/about' },
   { key: 'services', href: '/services' },
   { key: 'project', href: '/projects' },
+  { key: 'blog', href: '/blog' },
 ];
 
 // Individual Nav Button Component
@@ -54,7 +55,7 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const scrollDifference = Math.abs(currentScrollY - lastScrollY.current);
-      
+
       // At the very top, always show
       if (currentScrollY < 10) {
         setIsExpanded(true);
@@ -70,7 +71,7 @@ export default function Navbar() {
           setIsExpanded(true);
         }
       }
-      
+
       // Always update last scroll position
       lastScrollY.current = currentScrollY;
     };
@@ -99,18 +100,18 @@ export default function Navbar() {
     <nav
       dir={isRTL ? 'rtl' : 'ltr'}
       className="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300 safe-area-top"
-      style={{ 
-        height: 'clamp(60px, 8vw, 82px)', 
+      style={{
+        height: 'clamp(60px, 8vw, 82px)',
         padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem)',
         opacity: isExpanded ? 1 : 0.8,
         transform: isExpanded ? 'translateY(0)' : 'translateY(100%)'
       }}
     >
-      <div style={{ 
-        width: '100%', 
-        height: '100%', 
-        display: 'flex', 
-        alignItems: 'center', 
+      <div style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
         justifyContent: isExpanded ? 'space-between' : 'center',
         gap: isExpanded ? '0' : '20px'
       }}>
@@ -127,9 +128,9 @@ export default function Navbar() {
           >
             {/* Logo */}
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Link 
-                href="/" 
-                className={`text-white text-lg sm:text-xl md:text-2xl font-normal uppercase tracking-[clamp(0.2em, 0.5vw, 0.32em)] leading-[1.2] hover:opacity-80 transition-opacity z-10 focus-visible:outline-2 focus-visible:outline-[#FFDD00] focus-visible:outline-offset-2 rounded ${sixtyfour.className}`}
+              <Link
+                href="/"
+                className={`text-white text-base sm:text-lg md:text-xl font-normal uppercase tracking-[clamp(0.2em, 0.5vw, 0.32em)] leading-[1.2] hover:opacity-80 transition-opacity z-10 focus-visible:outline-2 focus-visible:outline-[#FFDD00] focus-visible:outline-offset-2 rounded ${sixtyfour.className}`}
                 aria-label="ALMOHTAREF - Home"
               >
                 ALMOHTAREF
@@ -137,8 +138,8 @@ export default function Navbar() {
             </div>
 
             {/* CALL Button */}
-            <div style={{ 
-              display: 'flex', 
+            <div style={{
+              display: 'flex',
               alignItems: 'center',
               position: 'relative',
               zIndex: 20
@@ -183,9 +184,9 @@ export default function Navbar() {
           <>
             {/* Logo and Language Switcher */}
             <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-              <Link 
-                href="/" 
-                className={`text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal uppercase tracking-[clamp(0.2em, 0.5vw, 0.32em)] leading-[1.2] hover:opacity-80 transition-opacity z-10 focus-visible:outline-2 focus-visible:outline-[#FFDD00] focus-visible:outline-offset-2 rounded ${sixtyfour.className}`}
+              <Link
+                href="/"
+                className={`text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-normal uppercase tracking-[clamp(0.2em, 0.5vw, 0.32em)] leading-[1.2] hover:opacity-80 transition-opacity z-10 focus-visible:outline-2 focus-visible:outline-[#FFDD00] focus-visible:outline-offset-2 rounded ${sixtyfour.className}`}
                 aria-label="ALMOHTAREF - Home"
               >
                 ALMOHTAREF
@@ -196,13 +197,13 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation Links */}
-            <div 
-              className="hidden lg:flex items-center gap-2 md:gap-3" 
-              style={{ 
+            <div
+              className="hidden lg:flex items-center gap-2 md:gap-3"
+              style={{
                 position: 'absolute',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                zIndex: 10 
+                zIndex: 10
               }}
             >
               {navLinks.map((link) => (
@@ -267,9 +268,9 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && isExpanded && (
-        <div 
+        <div
           id="mobile-menu"
-          className="lg:hidden fixed inset-0 bg-black/95 backdrop-blur-lg z-40 safe-area-top" 
+          className="lg:hidden fixed inset-0 bg-black/95 backdrop-blur-lg z-40 safe-area-top"
           style={{ top: 'clamp(60px, 8vw, 82px)' }}
           role="dialog"
           aria-modal="true"
@@ -284,7 +285,7 @@ export default function Navbar() {
                 <div className="md:hidden flex justify-center pb-2">
                   <LanguageSwitcher />
                 </div>
-                
+
                 {/* Mobile Navigation Links */}
                 <div className="flex flex-col items-center gap-3">
                   {navLinks.map((link) => (
@@ -297,7 +298,7 @@ export default function Navbar() {
                     />
                   ))}
                 </div>
-                
+
                 {/* Mobile CALL Button */}
                 <div className="flex justify-center pt-2">
                   <Link

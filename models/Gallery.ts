@@ -4,6 +4,8 @@ export interface IGallery extends Document {
   image: string; // GridFS file ID
   alt: string;
   altAr?: string;
+  category?: 'cutting' | 'perforation';
+  categoryAr?: 'قص' | 'تخريم' | 'قطع' | 'حفر';
   order: number; // For ordering images in the gallery
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +23,15 @@ const GallerySchema: Schema = new Schema(
     },
     altAr: {
       type: String,
+    },
+    category: {
+      type: String,
+      enum: ['cutting', 'perforation'],
+      default: 'cutting',
+    },
+    categoryAr: {
+      type: String,
+      enum: ['قص', 'تخريم', 'قطع', 'حفر'],
     },
     order: {
       type: Number,

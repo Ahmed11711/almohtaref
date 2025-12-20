@@ -9,7 +9,9 @@
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
     "seed:gallery": "tsx scripts/seed-gallery.ts",
-    "seed:videos": "tsx scripts/seed-videos.ts"
+    "seed:videos": "tsx scripts/seed-videos.ts",
+    "migrate:drilling": "tsx scripts/migrate-drilling-category.ts",
+    "migrate:cutting": "tsx scripts/migrate-cutting-category.ts"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",

@@ -4,6 +4,7 @@
     "about": "ABOUT US",
     "services": "SERVICES",
     "project": "PROJECT",
+    "blog": "BLOG",
     "contact": "CONTACT",
     "call": "CALL"
   },
@@ -508,4 +509,3 @@
     }
   }
 }
-

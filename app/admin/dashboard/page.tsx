@@ -58,6 +58,16 @@ interface GalleryImage {
   order: number;
 }
 
+interface Blog {
+  _id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  author: string;
+  featured: boolean;
+}
+
 interface Video {
   _id: string;
   video: string;
@@ -146,13 +156,14 @@ function ToastContainer({ toasts, onClose }: { toasts: Toast[]; onClose: (id: st
 export default function AdminDashboard() {
   const router = useRouter();
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'projects' | 'services' | 'testimonials' | 'banners' | 'gallery' | 'videos'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'services' | 'testimonials' | 'banners' | 'gallery' | 'videos' | 'blogs'>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [videos, setVideos] = useState<Video[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -187,7 +198,7 @@ export default function AdminDashboard() {
         setIsSidebarOpen(true);
       }
     };
-    
+
     checkDesktop();
     window.addEventListener('resize', checkDesktop);
     return () => window.removeEventListener('resize', checkDesktop);
@@ -199,13 +210,14 @@ export default function AdminDashboard() {
 
   const fetchAllData = async () => {
     try {
-      const [projectsRes, servicesRes, testimonialsRes, bannersRes, galleryRes, videosRes] = await Promise.all([
+      const [projectsRes, servicesRes, testimonialsRes, bannersRes, galleryRes, videosRes, blogsRes] = await Promise.all([
         fetch('/api/projects', { headers: adminHeaders }),
         fetch('/api/services', { headers: adminHeaders }),
         fetch('/api/testimonials', { headers: adminHeaders }),
         fetch('/api/banners', { headers: adminHeaders }),
         fetch('/api/gallery', { headers: adminHeaders }),
         fetch('/api/videos', { headers: adminHeaders }),
+        fetch('/api/blogs', { headers: adminHeaders }),
       ]);
       setProjects(await projectsRes.json());
       setServices(await servicesRes.json());
@@ -213,6 +225,7 @@ export default function AdminDashboard() {
       setBanners(await bannersRes.json());
       setGalleryImages(await galleryRes.json());
       setVideos(await videosRes.json());
+      setBlogs(await blogsRes.json());
     } catch (error) {
       console.error('Failed to fetch data:', error);
       showToast('Failed to load data', 'error');
@@ -230,7 +243,7 @@ export default function AdminDashboard() {
     if (!confirm(t('admin.deleteConfirm'))) return;
 
     try {
-      const res = await fetch(`/api/${type}/${id}`, { 
+      const res = await fetch(`/api/${type}/${id}`, {
         method: 'DELETE',
         headers: adminHeaders,
       });
@@ -250,7 +263,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/${type}/${id}`, {
         method: 'PUT',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...adminHeaders,
         },
@@ -270,7 +283,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/testimonials/${id}`, {
         method: 'PUT',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...adminHeaders,
         },
@@ -295,7 +308,7 @@ export default function AdminDashboard() {
 
       const res = await fetch(url, {
         method,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...adminHeaders,
         },
@@ -345,6 +358,13 @@ export default function AdminDashboard() {
       initialData.text = '';
       initialData.textAr = '';
       initialData.approved = false;
+    } else if (activeTab === 'blogs') {
+      initialData.title = '';
+      initialData.excerpt = '';
+      initialData.content = '';
+      initialData.image = '';
+      initialData.author = '';
+      initialData.featured = false;
     }
     setFormData(initialData);
     setShowForm(true);
@@ -441,6 +461,7 @@ export default function AdminDashboard() {
             { id: 'banners', label: t('admin.tabs.banners') },
             { id: 'gallery', label: t('admin.tabs.gallery') },
             { id: 'videos', label: t('admin.tabs.videos') || 'Videos' },
+            { id: 'blogs', label: 'Blogs' },
           ].map((tab, index) => (
             <motion.button
               key={tab.id}
@@ -455,11 +476,10 @@ export default function AdminDashboard() {
                 setEditingItem(null);
                 setIsSidebarOpen(false);
               }}
-              className={`relative w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                activeTab === tab.id
-                  ? 'bg-gradient-to-r from-[#FFDD00] to-[#FFE640] text-black font-semibold shadow-lg shadow-[#FFDD00]/30'
-                  : 'text-white/70 hover:bg-white/5 hover:text-white'
-              }`}
+              className={`relative w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeTab === tab.id
+                ? 'bg-gradient-to-r from-[#FFDD00] to-[#FFE640] text-black font-semibold shadow-lg shadow-[#FFDD00]/30'
+                : 'text-white/70 hover:bg-white/5 hover:text-white'
+                }`}
             >
               {activeTab === tab.id && (
                 <motion.div
@@ -561,6 +581,15 @@ export default function AdminDashboard() {
 
             {activeTab === 'videos' && (
               <VideosSection videos={videos} onUpdate={fetchAllData} showToast={showToast} />
+            )}
+
+            {activeTab === 'blogs' && (
+              <BlogsSection
+                blogs={blogs}
+                onEdit={openEditForm}
+                onDelete={(id) => handleDelete('blogs', id)}
+                onAddNew={openNewForm}
+              />
             )}
           </motion.div>
         </div>
@@ -825,11 +854,10 @@ function TestimonialsSection({
                 </RippleButton>
                 <RippleButton
                   onClick={() => onToggleApproved(testimonial._id, testimonial.approved)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg min-w-[90px] ${
-                    testimonial.approved
-                      ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white'
-                      : 'bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg min-w-[90px] ${testimonial.approved
+                    ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white'
+                    : 'bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white'
+                    }`}
                 >
                   {testimonial.approved ? t('admin.approved') : t('admin.approve')}
                 </RippleButton>
@@ -1094,12 +1122,12 @@ function GallerySection({
 
       const res = await fetch(url, {
         method,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...adminHeaders,
         },
-        body: JSON.stringify({ 
-          image: imageFileId, 
+        body: JSON.stringify({
+          image: imageFileId,
           alt: altText,
           altAr: altTextAr,
           order: order || 0,
@@ -1418,12 +1446,12 @@ function VideosSection({
 
       const res = await fetch(url, {
         method,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...adminHeaders,
         },
-        body: JSON.stringify({ 
-          video: videoFileId, 
+        body: JSON.stringify({
+          video: videoFileId,
           title,
           titleAr,
           description,
@@ -2119,11 +2147,10 @@ function FormInput({
         onBlur={() => setFocused(false)}
         required={required}
         whileFocus={{ scale: 1.01 }}
-        className={`w-full bg-gray-800/50 border rounded-xl px-4 pt-6 pb-2 text-white placeholder-transparent focus:outline-none transition-all duration-200 ${
-          focused
-            ? 'border-[#FFDD00] shadow-lg shadow-[#FFDD00]/20'
-            : 'border-white/20 hover:border-white/30'
-        }`}
+        className={`w-full bg-gray-800/50 border rounded-xl px-4 pt-6 pb-2 text-white placeholder-transparent focus:outline-none transition-all duration-200 ${focused
+          ? 'border-[#FFDD00] shadow-lg shadow-[#FFDD00]/20'
+          : 'border-white/20 hover:border-white/30'
+          }`}
         {...props}
       />
     </div>
@@ -2286,6 +2313,54 @@ function FormModal({
             </>
           )}
 
+          {type === 'blogs' && (
+            <>
+              <FormInput
+                label="Title"
+                value={data.title || ''}
+                onChange={(value) => updateField('title', value)}
+              />
+              <div>
+                <label className="block text-sm text-white/70 mb-2">Excerpt</label>
+                <textarea
+                  value={data.excerpt || ''}
+                  onChange={(e) => updateField('excerpt', e.target.value)}
+                  rows={2}
+                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-white/70 mb-2">Content (HTML allowed)</label>
+                <textarea
+                  value={data.content || ''}
+                  onChange={(e) => updateField('content', e.target.value)}
+                  rows={8}
+                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200 font-mono text-sm"
+                />
+              </div>
+              <FormInput
+                label="Author"
+                value={data.author || ''}
+                onChange={(value) => updateField('author', value)}
+              />
+              <ImageUploadField
+                label="Cover Image"
+                value={data.image || ''}
+                onChange={(fileId) => updateField('image', fileId)}
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={data.featured || false}
+                  onChange={(e) => updateField('featured', e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                />
+                <label htmlFor="featured" className="text-white">Featured Post</label>
+              </div>
+            </>
+          )}
+
           {type === 'testimonials' && (
             <>
               <FormInput
@@ -2369,5 +2444,86 @@ function FormModal({
         </div>
       </motion.div>
     </motion.div>
+  );
+}
+
+// Blogs Section Component
+function BlogsSection({
+  blogs,
+  onEdit,
+  onDelete,
+  onAddNew,
+}: {
+  blogs: Blog[];
+  onEdit: (blog: any) => void;
+  onDelete: (id: string) => void;
+  onAddNew: () => void;
+}) {
+  const { t } = useLanguage();
+  return (
+    <div className="space-y-3">
+      <AnimatePresence mode="popLayout">
+        {blogs.map((blog, index) => (
+          <motion.div
+            key={blog._id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2, delay: index * 0.03 }}
+            whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            className="group bg-gradient-to-r from-gray-900/50 to-gray-900/30 rounded-xl p-4 border border-white/10 hover:border-[#FFDD00]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-[#FFDD00]/10"
+          >
+            <div className="flex-1 min-w-0 flex gap-4">
+              <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0 border border-white/10">
+                <img
+                  src={blog.image && !blog.image.startsWith('/') && !blog.image.startsWith('http') ? `/api/images/${blog.image}` : (blog.image || '/placeholder-blog.jpg')}
+                  alt={blog.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="font-semibold text-white truncate group-hover:text-[#FFDD00] transition-colors">
+                    {blog.title}
+                  </h3>
+                  {blog.featured && (
+                    <span className="text-xs bg-[#FFDD00] text-black px-2 py-0.5 rounded-full font-bold">Featured</span>
+                  )}
+                </div>
+                <p className="text-white/70 text-sm line-clamp-2 mb-2">{blog.excerpt}</p>
+                <p className="text-white/50 text-xs">By {blog.author}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <RippleButton
+                onClick={() => onEdit(blog)}
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg text-sm font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200 shadow-md hover:shadow-lg min-w-[70px]"
+              >
+                {t('admin.edit')}
+              </RippleButton>
+              <RippleButton
+                onClick={() => onDelete(blog._id)}
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg text-sm font-medium hover:from-red-500 hover:to-red-400 transition-all duration-200 shadow-md hover:shadow-lg min-w-[70px]"
+              >
+                {t('admin.delete')}
+              </RippleButton>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: blogs.length * 0.03 }}
+        className="pt-4 border-t border-white/10"
+      >
+        <RippleButton
+          onClick={onAddNew}
+          className="w-full bg-gradient-to-r from-[#FFDD00] to-[#FFE640] text-black px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:shadow-[#FFDD00]/30 transition-all duration-200"
+        >
+          {t('admin.addNew')} Blog
+        </RippleButton>
+      </motion.div>
+    </div>
   );
 }

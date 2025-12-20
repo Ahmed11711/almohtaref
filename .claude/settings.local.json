@@ -4,7 +4,12 @@
       "Bash(npm run dev:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(dir:*)",
+      "Bash(npm run migrate:drilling:*)",
+      "Bash(tsx scripts/check-categories.ts:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npm run migrate:cutting:*)"
     ],
     "deny": [],
     "ask": []

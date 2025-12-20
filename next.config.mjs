@@ -19,26 +19,31 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   async headers() {
+    const cspHeader = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.cdnfonts.com https://www.googletagmanager.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com",
+      "font-src 'self' data: https://fonts.gstatic.com https://fonts.cdnfonts.com",
+      "img-src 'self' data: blob: https:",
+      "connect-src 'self' https://fonts.googleapis.com https://fonts.cdnfonts.com https://www.google-analytics.com https://www.googletagmanager.com",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-src 'self'",
+      "object-src 'none'",
+    ];
+
+    if (process.env.NODE_ENV === 'production') {
+      // cspHeader.push("require-trusted-types-for 'script'; report-uri /api/csp-report");
+    }
+
     return [
       {
         source: '/:path*',
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.cdnfonts.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com",
-              "font-src 'self' data: https://fonts.gstatic.com https://fonts.cdnfonts.com",
-              "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://fonts.googleapis.com https://fonts.cdnfonts.com",
-              "frame-ancestors 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-src 'self'",
-              "object-src 'none'",
-              "require-trusted-types-for 'script'; report-uri /api/csp-report",
-            ].join('; '),
+            value: cspHeader.join('; '),
           },
           {
             key: 'Cross-Origin-Opener-Policy',
@@ -75,3 +80,5 @@ export default nextConfig;
 
 
 
+
+// forced rebuild to clear cache

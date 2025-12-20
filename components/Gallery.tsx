@@ -14,17 +14,33 @@ const monoton = Monoton({
   display: 'swap',
 });
 
+const mapArabicCategory = (categoryAr: string): GalleryCategory => {
+  if (categoryAr.includes('قطع')) return 'cutting';
+  if (categoryAr.includes('حفر')) return 'perforation';
+  return 'cutting';
+};
+
+type GalleryCategory = 'cutting' | 'perforation';
+
+interface FilterOption {
+  key: string;
+  label: string;
+  category: GalleryCategory;
+}
+
 interface GalleryImage {
   _id: string;
   image: string;
   alt: string;
   altAr?: string;
+  category?: GalleryCategory;
+  categoryAr?: string;
   order: number;
 }
 
 export default function Gallery() {
   const { t, language } = useLanguage();
-  const [activeFilter, setActiveFilter] = useState('cutting');
+  const [activeFilter, setActiveFilter] = useState<string>('cutting-en');
   const [windowWidth, setWindowWidth] = useState(0);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,8 +57,15 @@ export default function Gallery() {
       try {
         const res = await fetch('/api/gallery');
         if (res.ok) {
-          const data = await res.json();
-          setGalleryImages(data);
+          const data: GalleryImage[] = await res.json();
+          const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+          const categorized = sorted.map((img, index) => ({
+            ...img,
+            category: img.category ?? (img.categoryAr ? mapArabicCategory(img.categoryAr) : (index % 2 === 0 ? 'cutting' : 'perforation')),
+          }));
+
+          setGalleryImages(categorized);
         }
       } catch (error) {
         console.error('Failed to fetch gallery images:', error);
@@ -53,10 +76,30 @@ export default function Gallery() {
     fetchGalleryImages();
   }, []);
 
-  const filters = [
-    { key: 'cutting', label: t('gallery.filters.cutting') },
-    { key: 'perforation', label: t('gallery.filters.perforation') },
-  ];
+  const filters: FilterOption[] =
+    language === 'ar'
+      ? [
+        { key: 'cutting-ar', label: 'قطع', category: 'cutting' },
+        { key: 'perforation-ar', label: 'حفر', category: 'perforation' },
+      ]
+      : [
+        { key: 'cutting-en', label: 'Cutting', category: 'cutting' },
+        { key: 'perforation-en', label: 'Perforation', category: 'perforation' },
+      ];
+
+  useEffect(() => {
+    setActiveFilter(filters[0].key);
+  }, [language]);
+
+  const activeFilterConfig =
+    filters.find((filter) => filter.key === activeFilter) ?? filters[0];
+
+  const filteredImages = galleryImages.filter(
+    (img) => img.category === activeFilterConfig.category
+  );
+
+  const imagesToRender =
+    filteredImages.length > 0 ? filteredImages : galleryImages;
 
   return (
     <section id="project" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-10 bg-black text-white safe-area-left safe-area-right">
@@ -87,9 +130,9 @@ export default function Gallery() {
               />
             ))}
           </div>
-        ) : galleryImages.length > 0 ? (
+        ) : (filteredImages.length > 0 || galleryImages.length > 0) ? (
           <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-            {galleryImages.slice(0, 6).map((img, index) => {
+            {imagesToRender.slice(0, 6).map((img, index) => {
               // Define aspect ratios based on position (maintaining original layout)
               const aspectRatios: { [key: number]: string } = {
                 0: '6/5',
@@ -101,7 +144,7 @@ export default function Gallery() {
               };
               const aspectRatio = aspectRatios[index] || '6/5';
               const marginTop = [1, 3, 5].includes(index) && windowWidth >= 640 ? 'sm:mt-8 md:mt-12' : '';
-              
+
               return (
                 <motion.div
                   key={img._id}
@@ -152,7 +195,7 @@ export default function Gallery() {
               letterSpacing={0}
               isActive={activeFilter === filter.key}
               useGradient={true}
-              className="pointer-events-none cursor-default"
+              onClick={() => setActiveFilter(filter.key)}
             />
           ))}
         </motion.div>
@@ -160,4 +203,5 @@ export default function Gallery() {
     </section>
   );
 }
+
 
