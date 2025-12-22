@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
@@ -36,10 +36,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
         });
     };
 
-    // Fix for scroll position on mobile
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+
 
     return (
         <article className="min-h-screen bg-black text-white pt-24 pb-20">
