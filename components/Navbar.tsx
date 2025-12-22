@@ -55,20 +55,25 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const scrollDifference = Math.abs(currentScrollY - lastScrollY.current);
+      const isMobile = window.innerWidth < 768;
 
       // At the very top, always show
       if (currentScrollY < 10) {
         setIsExpanded(true);
         lastScrollY.current = currentScrollY;
-      } else if (scrollDifference > 5) {
-        // Only update state if scrolled more than 5px to allow smooth animation
-        // Check scroll direction
-        if (currentScrollY > lastScrollY.current) {
-          // Scrolling down - collapse
-          setIsExpanded(false);
-        } else if (currentScrollY < lastScrollY.current) {
-          // Scrolling up - expand
+      } else if (scrollDifference > 10) { // Increased threshold from 5 to 10
+        // On mobile, just keep it sticky/expanded to prevent flickering issues or confusion
+        if (isMobile) {
           setIsExpanded(true);
+        } else {
+          // Desktop logic
+          if (currentScrollY > lastScrollY.current) {
+            // Scrolling down - collapse (hide main navbar)
+            setIsExpanded(false);
+          } else if (currentScrollY < lastScrollY.current) {
+            // Scrolling up - expand
+            setIsExpanded(true);
+          }
         }
       }
 
@@ -104,7 +109,7 @@ export default function Navbar() {
         height: 'clamp(60px, 8vw, 82px)',
         padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem)',
         opacity: isExpanded ? 1 : 0.8,
-        transform: isExpanded ? 'translateY(0)' : 'translateY(100%)'
+        transform: isExpanded ? 'translateY(0)' : 'translateY(-100%)'
       }}
     >
       <div style={{
