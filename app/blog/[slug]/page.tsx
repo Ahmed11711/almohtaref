@@ -5,6 +5,8 @@ import BlogDetail from '@/components/BlogDetail';
 import { generateSEOMetadata } from '@/lib/seo-utils';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
     params: { slug: string };
     searchParams: { [key: string]: string | string[] | undefined };

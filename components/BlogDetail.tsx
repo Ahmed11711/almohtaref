@@ -4,7 +4,6 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
 interface Blog {
     _id: string;

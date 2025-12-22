@@ -68,7 +68,7 @@ export default function BlogList({ initialBlogs }: BlogListProps) {
                             transition={{ delay: index * 0.1 }}
                             className="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-yellow-500/50 transition-all duration-300 group"
                         >
-                            <Link href={`/blog/${blog.slug}`}>
+                            <Link href={`/blog/${blog.slug}`} className="block h-full cursor-pointer">
                                 <div className="relative h-60 overflow-hidden">
                                     <img
                                         src={blog.image || '/placeholder-blog.jpg'}
