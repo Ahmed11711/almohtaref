@@ -33,9 +33,6 @@ export function extractKeywords(text: string, maxKeywords: number = 10): string[
         'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should',
         'could', 'may', 'might', 'can', 'this', 'that', 'these', 'those',
         'it', 'its', 'they', 'them', 'their', 'we', 'us', 'our', 'you', 'your',
-        // Arabic Stop Words (Basic list)
-        'في', 'من', 'على', 'إلى', 'عن', 'مع', 'هذا', 'هذه', 'تم', 'كان', 'كانت',
-        'أن', 'إن', 'لا', 'ما', 'هو', 'هي', 'التي', 'الذي', 'وان', 'او',
     ]);
 
     // Extract words
@@ -104,5 +101,41 @@ export function generateSEOMetadata(
         metaDescription,
         metaKeywords,
         slug,
+    };
+}
+
+/**
+ * Generate Open Graph metadata for social sharing
+ */
+export function generateOpenGraphTags(
+    title: string,
+    description: string,
+    imageUrl: string,
+    url: string,
+    author?: string
+): Record<string, string> {
+    return {
+        'og:type': 'article',
+        'og:title': title,
+        'og:description': description,
+        'og:image': imageUrl,
+        'og:url': url,
+        ...(author && { 'article:author': author }),
+    };
+}
+
+/**
+ * Generate Twitter Card metadata
+ */
+export function generateTwitterCardTags(
+    title: string,
+    description: string,
+    imageUrl: string
+): Record<string, string> {
+    return {
+        'twitter:card': 'summary_large_image',
+        'twitter:title': title,
+        'twitter:description': description,
+        'twitter:image': imageUrl,
     };
 }

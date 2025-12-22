@@ -8,11 +8,13 @@ interface Blog {
     _id: string;
     title: string;
     content: string;
+    processedContent?: string;
     excerpt: string;
     image: string;
     author: string;
     featured: boolean;
     slug: string;
+    internalLinksApplied?: string[];
     createdAt: string;
     updatedAt: string;
 }
@@ -91,10 +93,28 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                     <div
                         className="prose prose-lg prose-invert max-w-none 
                 prose-headings:text-white prose-p:text-gray-300 prose-a:text-yellow-500 hover:prose-a:text-yellow-400 
-                prose-strong:text-white prose-li:text-gray-300"
-                        dangerouslySetInnerHTML={{ __html: blog.content }} // Note: In production you should sanitize this on server or use a parser
+                prose-strong:text-white prose-li:text-gray-300 
+                [&_.internal-link]:text-yellow-500 [&_.internal-link]:font-semibold [&_.internal-link]:no-underline hover:[&_.internal-link]:underline"
+                        dangerouslySetInnerHTML={{ __html: blog.processedContent || blog.content }} // Use processedContent if available for internal links
                     />
                 </div>
+
+                {/* Internal Links Applied (for debugging - remove in production) */}
+                {blog.internalLinksApplied && blog.internalLinksApplied.length > 0 && (
+                    <div className="mt-8 p-6 bg-zinc-900/30 rounded-lg border border-zinc-800">
+                        <h3 className="text-sm font-medium text-gray-400 mb-2">Internal Links Applied (Debug):</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {blog.internalLinksApplied.map((keyword, index) => (
+                                <span
+                                    key={index}
+                                    className="inline-block bg-zinc-800 px-3 py-1 rounded-full text-sm text-gray-300 border border-zinc-700"
+                                >
+                                    {keyword}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Share / Tags (Placeholder) */}
                 <div className="mt-12 pt-8 border-t border-zinc-800 flex justify-between items-center">

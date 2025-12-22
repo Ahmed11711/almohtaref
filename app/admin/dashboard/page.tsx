@@ -79,6 +79,28 @@ interface Video {
   order: number;
 }
 
+interface SEOConfig {
+  _id: string;
+  globalAutoSEO: boolean;
+  globalAutoInternalLinks: boolean;
+  maxInternalLinksPerPost: number;
+  defaultMetaKeywordsCount: number;
+  siteName: string;
+  defaultOGImage: string;
+  twitterHandle: string;
+}
+
+interface LinkMapping {
+  _id: string;
+  keyword: string;
+  url: string;
+  priority: number;
+  caseSensitive: boolean;
+  maxOccurrences: number;
+  isActive: boolean;
+  description: string;
+}
+
 interface Toast {
   id: string;
   message: string;
@@ -156,7 +178,7 @@ function ToastContainer({ toasts, onClose }: { toasts: Toast[]; onClose: (id: st
 export default function AdminDashboard() {
   const router = useRouter();
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'projects' | 'services' | 'testimonials' | 'banners' | 'gallery' | 'videos' | 'blogs'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'services' | 'testimonials' | 'banners' | 'gallery' | 'videos' | 'blogs' | 'seo-config' | 'link-mappings'>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -164,6 +186,8 @@ export default function AdminDashboard() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [videos, setVideos] = useState<Video[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [seoConfig, setSeoConfig] = useState<SEOConfig | null>(null);
+  const [linkMappings, setLinkMappings] = useState<LinkMapping[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -210,7 +234,7 @@ export default function AdminDashboard() {
 
   const fetchAllData = async () => {
     try {
-      const [projectsRes, servicesRes, testimonialsRes, bannersRes, galleryRes, videosRes, blogsRes] = await Promise.all([
+      const [projectsRes, servicesRes, testimonialsRes, bannersRes, galleryRes, videosRes, blogsRes, seoRes, linksRes] = await Promise.all([
         fetch('/api/projects', { headers: adminHeaders }),
         fetch('/api/services', { headers: adminHeaders }),
         fetch('/api/testimonials', { headers: adminHeaders }),
@@ -218,6 +242,8 @@ export default function AdminDashboard() {
         fetch('/api/gallery', { headers: adminHeaders }),
         fetch('/api/videos', { headers: adminHeaders }),
         fetch('/api/blogs', { headers: adminHeaders }),
+        fetch('/api/seo-config', { headers: adminHeaders }),
+        fetch('/api/link-mappings', { headers: adminHeaders }),
       ]);
       setProjects(await projectsRes.json());
       setServices(await servicesRes.json());
@@ -226,6 +252,8 @@ export default function AdminDashboard() {
       setGalleryImages(await galleryRes.json());
       setVideos(await videosRes.json());
       setBlogs(await blogsRes.json());
+      setSeoConfig(await seoRes.json());
+      setLinkMappings(await linksRes.json());
     } catch (error) {
       console.error('Failed to fetch data:', error);
       showToast('Failed to load data', 'error');
@@ -365,6 +393,14 @@ export default function AdminDashboard() {
       initialData.image = '';
       initialData.author = '';
       initialData.featured = false;
+    } else if (activeTab === 'link-mappings') {
+      initialData.keyword = '';
+      initialData.url = '';
+      initialData.priority = 0;
+      initialData.caseSensitive = false;
+      initialData.maxOccurrences = 1;
+      initialData.isActive = true;
+      initialData.description = '';
     }
     setFormData(initialData);
     setShowForm(true);
@@ -462,6 +498,8 @@ export default function AdminDashboard() {
             { id: 'gallery', label: t('admin.tabs.gallery') },
             { id: 'videos', label: t('admin.tabs.videos') || 'Videos' },
             { id: 'blogs', label: 'Blogs' },
+            { id: 'seo-config', label: 'SEO Config' },
+            { id: 'link-mappings', label: 'Internal Links' },
           ].map((tab, index) => (
             <motion.button
               key={tab.id}
@@ -588,6 +626,23 @@ export default function AdminDashboard() {
                 blogs={blogs}
                 onEdit={openEditForm}
                 onDelete={(id) => handleDelete('blogs', id)}
+                onAddNew={openNewForm}
+              />
+            )}
+
+            {activeTab === 'seo-config' && seoConfig && (
+              <SEOConfigSection
+                config={seoConfig}
+                onUpdate={fetchAllData}
+                showToast={showToast}
+              />
+            )}
+
+            {activeTab === 'link-mappings' && (
+              <InternalLinksSection
+                mappings={linkMappings}
+                onEdit={openEditForm}
+                onDelete={(id) => handleDelete('link-mappings', id)}
                 onAddNew={openNewForm}
               />
             )}
@@ -1857,6 +1912,241 @@ function VideosSection({
   );
 }
 
+
+// SEO Config Section Component
+function SEOConfigSection({
+  config,
+  onUpdate,
+  showToast,
+}: {
+  config: SEOConfig;
+  onUpdate: () => void;
+  showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
+}) {
+  const { t } = useLanguage();
+  const [formData, setFormData] = useState<SEOConfig>(config);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    setFormData(config);
+  }, [config]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch('/api/seo-config', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Request': 'true',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        showToast('SEO Configuration updated successfully', 'success');
+        onUpdate();
+      } else {
+        showToast('Failed to update configuration', 'error');
+      }
+    } catch (error) {
+      console.error('Failed to update config:', error);
+      showToast('Failed to update configuration', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const updateField = (field: keyof SEOConfig, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <div className="space-y-6 max-w-4xl">
+      <div className="bg-gray-900/50 p-6 rounded-xl border border-white/10 space-y-6">
+        <h3 className="text-xl font-bold text-[#FFDD00]">Global Automation Settings</h3>
+
+        <div className="space-y-4">
+          <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg">
+            <div>
+              <h4 className="font-semibold text-white">Auto-Generate SEO Metadata</h4>
+              <p className="text-sm text-gray-400">Automatically generate titles, descriptions, and keywords for new blog posts</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.globalAutoSEO}
+                onChange={(e) => updateField('globalAutoSEO', e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#FFDD00]/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FFDD00]"></div>
+            </label>
+          </div>
+
+          <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg">
+            <div>
+              <h4 className="font-semibold text-white">Auto-Link Internal Content</h4>
+              <p className="text-sm text-gray-400">Automatically add internal links to blog posts based on defined keywords</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.globalAutoInternalLinks}
+                onChange={(e) => updateField('globalAutoInternalLinks', e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#FFDD00]/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FFDD00]"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gray-900/50 p-6 rounded-xl border border-white/10 space-y-6">
+        <h3 className="text-xl font-bold text-[#FFDD00]">Default Configuration</h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormInput
+            label="Site Name"
+            value={formData.siteName}
+            onChange={(val) => updateField('siteName', val)}
+          />
+          <FormInput
+            label="Twitter Handle (@username)"
+            value={formData.twitterHandle}
+            onChange={(val) => updateField('twitterHandle', val)}
+          />
+          <FormInput
+            label="Max Internal Links Per Post"
+            type="number"
+            value={formData.maxInternalLinksPerPost.toString()}
+            onChange={(val) => updateField('maxInternalLinksPerPost', parseInt(val) || 0)}
+          />
+          <FormInput
+            label="Default Meta Keywords Count"
+            type="number"
+            value={formData.defaultMetaKeywordsCount.toString()}
+            onChange={(val) => updateField('defaultMetaKeywordsCount', parseInt(val) || 0)}
+          />
+          <div className="md:col-span-2">
+            <ImageUploadField
+              label="Default OG Image"
+              value={formData.defaultOGImage || ''}
+              onChange={(fileId) => updateField('defaultOGImage', fileId)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-end">
+        <RippleButton
+          onClick={handleSave}
+          disabled={saving}
+          className="bg-gradient-to-r from-[#FFDD00] to-[#FFE640] text-black px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:shadow-[#FFDD00]/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {saving ? 'Saving...' : 'Save Configuration'}
+        </RippleButton>
+      </div>
+    </div>
+  );
+}
+
+// Internal Links Section Component
+function InternalLinksSection({
+  mappings,
+  onEdit,
+  onDelete,
+  onAddNew,
+}: {
+  mappings: LinkMapping[];
+  onEdit: (mapping: LinkMapping) => void;
+  onDelete: (id: string) => void;
+  onAddNew: () => void;
+}) {
+  const { t } = useLanguage();
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-gray-400">
+          Define keywords that should automatically link to specific URLs in your blog posts.
+        </p>
+      </div>
+
+      <AnimatePresence mode="popLayout">
+        {mappings.map((mapping, index) => (
+          <motion.div
+            key={mapping._id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2, delay: index * 0.03 }}
+            whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            className={`group bg-gradient-to-r from-gray-900/50 to-gray-900/30 rounded-xl p-4 border ${mapping.isActive ? 'border-white/10' : 'border-red-900/30'} hover:border-[#FFDD00]/30 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-[#FFDD00]/10`}
+          >
+            <div className="flex-1 min-w-0 w-full">
+              <div className="flex items-center gap-3 mb-1">
+                <span className="bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded text-xs font-mono">
+                  {mapping.keyword}
+                </span>
+                <span className="text-gray-500">→</span>
+                <span className="text-green-400 font-mono text-sm truncate">
+                  {mapping.url}
+                </span>
+                {!mapping.isActive && (
+                  <span className="bg-red-900/50 text-red-400 px-2 py-0.5 rounded text-xs">
+                    Inactive
+                  </span>
+                )}
+              </div>
+              <p className="text-white/50 text-xs mt-1">
+                Priority: {mapping.priority} • Max: {mapping.maxOccurrences} • {mapping.caseSensitive ? 'Case Sensitive' : 'Case Insensitive'}
+              </p>
+              {mapping.description && (
+                <p className="text-white/30 text-xs mt-1 italic">{mapping.description}</p>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto justify-end">
+              <RippleButton
+                onClick={() => onEdit(mapping)}
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg text-sm font-medium hover:from-blue-500 hover:to-blue-400 transition-all duration-200 shadow-md hover:shadow-lg min-w-[70px]"
+              >
+                {t('admin.edit')}
+              </RippleButton>
+              <RippleButton
+                onClick={() => onDelete(mapping._id)}
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg text-sm font-medium hover:from-red-500 hover:to-red-400 transition-all duration-200 shadow-md hover:shadow-lg min-w-[70px]"
+              >
+                {t('admin.delete')}
+              </RippleButton>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      {mappings.length === 0 && (
+        <div className="text-center py-10 text-gray-500 bg-gray-900/30 rounded-xl border border-dashed border-gray-800">
+          No link mappings found. Create one to get started!
+        </div>
+      )}
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: mappings.length * 0.03 }}
+        className="pt-4 border-t border-white/10"
+      >
+        <RippleButton
+          onClick={onAddNew}
+          className="w-full bg-gradient-to-r from-[#FFDD00] to-[#FFE640] text-black px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:shadow-[#FFDD00]/30 transition-all duration-200"
+        >
+          {t('admin.addNew')} Link Mapping
+        </RippleButton>
+      </motion.div>
+    </div>
+  );
+}
+
+
 // Image Upload Component
 function ImageUploadField({
   label,
@@ -2358,74 +2648,180 @@ function FormModal({
                 />
                 <label htmlFor="featured" className="text-white">Featured Post</label>
               </div>
+              <div className="border-t border-white/10 pt-4 mt-4">
+                <h3 className="text-lg font-semibold text-[#FFDD00] mb-4">SEO Settings</h3>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="flex items-center gap-2 bg-gray-800/30 p-3 rounded-lg border border-white/5">
+                    <input
+                      type="checkbox"
+                      id="autoSEO"
+                      checked={data.autoSEO !== false}
+                      onChange={(e) => updateField('autoSEO', e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                    />
+                    <label htmlFor="autoSEO" className="text-white text-sm">Auto-Generate SEO</label>
+                  </div>
+                  <div className="flex items-center gap-2 bg-gray-800/30 p-3 rounded-lg border border-white/5">
+                    <input
+                      type="checkbox"
+                      id="autoInternalLinks"
+                      checked={data.autoInternalLinks !== false}
+                      onChange={(e) => updateField('autoInternalLinks', e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                    />
+                    <label htmlFor="autoInternalLinks" className="text-white text-sm">Auto Internal Links</label>
+                  </div>
+                </div>
+
+                {!data.autoSEO && (
+                  <div className="space-y-3 pl-4 border-l-2 border-white/10">
+                    <FormInput
+                      label="Meta Title"
+                      value={data.manualSEO?.title || data.metaTitle || ''}
+                      onChange={(value) => updateField('manualSEO', { ...data.manualSEO, title: value })}
+                    />
+                    <div>
+                      <label className="block text-sm text-white/70 mb-2">Meta Description</label>
+                      <textarea
+                        value={data.manualSEO?.description || data.metaDescription || ''}
+                        onChange={(e) => updateField('manualSEO', { ...data.manualSEO, description: e.target.value })}
+                        rows={3}
+                        className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200 text-sm"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </>
           )}
 
-          {type === 'testimonials' && (
-            <>
-              <FormInput
-                label="Name"
-                value={data.name || ''}
-                onChange={(value) => updateField('name', value)}
-                required
-              />
-              <FormInput
-                label="Company"
-                value={data.company || ''}
-                onChange={(value) => updateField('company', value)}
-                required
-              />
-              <FormInput
-                label="Location (optional)"
-                value={data.location || ''}
-                onChange={(value) => updateField('location', value)}
-              />
-              <div>
-                <label className="block text-sm text-white/70 mb-2">Rating</label>
-                <select
-                  value={data.rating || 5}
-                  onChange={(e) => updateField('rating', parseInt(e.target.value))}
-                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
-                  required
-                >
-                  <option value={1}>1 Star</option>
-                  <option value={2}>2 Stars</option>
-                  <option value={3}>3 Stars</option>
-                  <option value={4}>4 Stars</option>
-                  <option value={5}>5 Stars</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-white/70 mb-2">Text (English)</label>
-                <textarea
-                  value={data.text || ''}
-                  onChange={(e) => updateField('text', e.target.value)}
-                  rows={4}
-                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+          {
+            type === 'testimonials' && (
+              <>
+                <FormInput
+                  label="Name"
+                  value={data.name || ''}
+                  onChange={(value) => updateField('name', value)}
                   required
                 />
-              </div>
-              <div>
-                <label className="block text-sm text-white/70 mb-2">Text (Arabic) - Optional</label>
-                <textarea
-                  value={data.textAr || ''}
-                  onChange={(e) => updateField('textAr', e.target.value)}
-                  rows={4}
-                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                <FormInput
+                  label="Company"
+                  value={data.company || ''}
+                  onChange={(value) => updateField('company', value)}
+                  required
                 />
-              </div>
-              <div className="flex items-center gap-2">
-                <motion.input
-                  type="checkbox"
-                  checked={data.approved || false}
-                  onChange={(e) => updateField('approved', e.target.checked)}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-5 h-5 rounded border-white/20 bg-gray-800 text-[#FFDD00] focus:ring-2 focus:ring-[#FFDD00] cursor-pointer"
+                <FormInput
+                  label="Location (optional)"
+                  value={data.location || ''}
+                  onChange={(value) => updateField('location', value)}
                 />
-                <label className="text-sm text-white/70">Approved</label>
-              </div>
-            </>
-          )}
+                <div>
+                  <label className="block text-sm text-white/70 mb-2">Rating</label>
+                  <select
+                    value={data.rating || 5}
+                    onChange={(e) => updateField('rating', parseInt(e.target.value))}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                    required
+                  >
+                    <option value={1}>1 Star</option>
+                    <option value={2}>2 Stars</option>
+                    <option value={3}>3 Stars</option>
+                    <option value={4}>4 Stars</option>
+                    <option value={5}>5 Stars</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-white/70 mb-2">Text (English)</label>
+                  <textarea
+                    value={data.text || ''}
+                    onChange={(e) => updateField('text', e.target.value)}
+                    rows={4}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-white/70 mb-2">Text (Arabic) - Optional</label>
+                  <textarea
+                    value={data.textAr || ''}
+                    onChange={(e) => updateField('textAr', e.target.value)}
+                    rows={4}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={data.approved || false}
+                    onChange={(e) => updateField('approved', e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                  />
+                  <label className="text-sm text-white/70">Approved</label>
+                </div>
+              </>
+            )
+          }
+
+          {
+            type === 'link-mappings' && (
+              <>
+                <FormInput
+                  label="Keyword or Phrase"
+                  value={data.keyword || ''}
+                  onChange={(value) => updateField('keyword', value)}
+                  required
+                />
+                <FormInput
+                  label="Target URL (e.g., /services/concrete-cutting)"
+                  value={data.url || ''}
+                  onChange={(value) => updateField('url', value)}
+                  required
+                />
+                <div className="grid grid-cols-2 gap-4">
+                  <FormInput
+                    label="Priority (Higher = First)"
+                    type="number"
+                    value={data.priority?.toString() || '0'}
+                    onChange={(value) => updateField('priority', parseInt(value) || 0)}
+                  />
+                  <FormInput
+                    label="Max Occurrences Per Post"
+                    type="number"
+                    value={data.maxOccurrences?.toString() || '1'}
+                    onChange={(value) => updateField('maxOccurrences', parseInt(value) || 1)}
+                  />
+                </div>
+                <FormInput
+                  label="Description (Admin Only)"
+                  value={data.description || ''}
+                  onChange={(value) => updateField('description', value)}
+                />
+                <div className="flex gap-6 pt-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="isActive"
+                      checked={data.isActive !== false}
+                      onChange={(e) => updateField('isActive', e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                    />
+                    <label htmlFor="isActive" className="text-white">Active</label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="caseSensitive"
+                      checked={data.caseSensitive || false}
+                      onChange={(e) => updateField('caseSensitive', e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                    />
+                    <label htmlFor="caseSensitive" className="text-white">Case Sensitive</label>
+                  </div>
+                </div>
+              </>
+            )
+          }
+
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2 mt-6">

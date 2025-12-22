@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import Blog from '@/models/Blog';
 import { uploadFile } from '@/lib/gridfs';
+import { generateSEOMetadata } from '@/lib/seo-utils';
+import { generateInternalLinks } from '@/lib/internal-linking';
+import SEOConfig from '@/models/SEOConfig';
+import InternalLinkMapping from '@/models/InternalLinkMapping';
 
 const connectDB = async () => {
     if (mongoose.connections[0].readyState) return;
@@ -29,8 +33,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
     try {
         await connectDB();
+        const { id } = params;
 
         let title, content, excerpt, author, featured, image;
+        let autoSEO, autoInternalLinks, manualSEO, manualLinks;
 
         const contentType = request.headers.get('content-type') || '';
         if (contentType.includes('application/json')) {
@@ -41,14 +47,119 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             author = body.author;
             featured = body.featured;
             image = body.image;
+            autoSEO = body.autoSEO;
+            autoInternalLinks = body.autoInternalLinks;
+            manualSEO = body.manualSEO;
+            manualLinks = body.manualLinks;
         } else {
             const formData = await request.formData();
-            title = formData.get('title');
-            content = formData.get('content');
-            excerpt = formData.get('excerpt');
-            author = formData.get('author');
-            featured = formData.get('featured');
+            title = formData.get('title') as string;
+            content = formData.get('content') as string;
+            excerpt = formData.get('excerpt') as string;
+            author = formData.get('author') as string;
+            featured = formData.get('featured') === 'true';
             image = formData.get('image');
+            autoSEO = formData.get('autoSEO');
+            autoInternalLinks = formData.get('autoInternalLinks');
+            manualSEO = formData.get('manualSEO');
+            manualLinks = formData.get('manualLinks');
+        }
+
+        const existingBlog = await Blog.findById(id);
+        if (!existingBlog) {
+            return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
+        }
+
+        let imageUrl = undefined;
+        if (image && typeof image === 'object' && 'name' in image) {
+            const file = image as unknown as File;
+            const arrayBuffer = await file.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+            const fileId = await uploadFile(buffer, file.name, file.type);
+            imageUrl = `/api/images/${fileId}`;
+        } else if (typeof image === 'string') {
+            if (image && !image.startsWith('/') && !image.startsWith('http')) {
+                imageUrl = `/api/images/${image}`;
+            } else {
+                imageUrl = image;
+            }
+        }
+
+        // Get global config
+        let config = await SEOConfig.findOne({ configKey: 'global' });
+        if (!config) {
+            config = new SEOConfig({ configKey: 'global' });
+            await config.save();
+        }
+
+        // Determine if we should use auto features
+        const autoSEOBool = typeof autoSEO === 'string' ? autoSEO === 'true' : (autoSEO !== undefined ? autoSEO : existingBlog.autoSEO);
+        const autoInternalLinksBool = typeof autoInternalLinks === 'string' ? autoInternalLinks === 'true' : (autoInternalLinks !== undefined ? autoInternalLinks : existingBlog.autoInternalLinks);
+
+        const useAutoSEO = autoSEOBool && config.globalAutoSEO;
+        const useAutoLinks = autoInternalLinksBool && config.globalAutoInternalLinks;
+
+        // Generate SEO metadata (only if auto is enabled)
+        let slug = existingBlog.slug;
+        let metaTitle = existingBlog.metaTitle;
+        let metaDescription = existingBlog.metaDescription;
+        let metaKeywords = existingBlog.metaKeywords;
+
+        if (useAutoSEO) {
+            const seoMetadata = generateSEOMetadata(title || existingBlog.title, content || existingBlog.content, excerpt || existingBlog.excerpt);
+
+            // Only update slug if title changed
+            if (title && title !== existingBlog.title) {
+                slug = seoMetadata.slug;
+                let slugCounter = 1;
+                while (await Blog.findOne({ slug, _id: { $ne: id } })) {
+                    slug = `${seoMetadata.slug}-${slugCounter}`;
+                    slugCounter++;
+                }
+            }
+
+            metaTitle = seoMetadata.metaTitle;
+            metaDescription = seoMetadata.metaDescription;
+            metaKeywords = seoMetadata.metaKeywords;
+        }
+
+        // Parse manual links
+        let parsedManualLinks = existingBlog.manualLinks || [];
+        if (manualLinks) {
+            try {
+                parsedManualLinks = typeof manualLinks === 'string' ? JSON.parse(manualLinks) : manualLinks;
+            } catch (e) {
+                console.error('Failed to parse manualLinks:', e);
+            }
+        }
+
+        // Generate internal links
+        let processedContent = content || existingBlog.content; // Use new content or existing
+        let internalLinksApplied: string[] = [];
+
+        if (useAutoLinks || parsedManualLinks.length > 0) {
+            const autoLinkMappings = useAutoLinks ? await InternalLinkMapping.find({ isActive: true }) : [];
+
+            const linkResult = generateInternalLinks({
+                content: processedContent,
+                autoLinks: autoLinkMappings,
+                manualLinks: parsedManualLinks,
+                useAutoLinks,
+                maxLinksPerPost: config.maxInternalLinksPerPost,
+            });
+
+            processedContent = linkResult.processedContent;
+            internalLinksApplied = linkResult.linksApplied;
+        }
+
+        // Parse manual SEO
+        let parsedManualSEO = existingBlog.manualSEO || {};
+        if (manualSEO) {
+            try {
+                parsedManualSEO = typeof manualSEO === 'string' ? JSON.parse(manualSEO) : manualSEO;
+            } catch (e) {
+                console.error('Failed to parse manualSEO:', e);
+            }
         }
 
         const updateData: any = {
@@ -57,24 +168,20 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             excerpt,
             author,
             featured: featured === true || featured === 'true',
+            image: imageUrl,
+            slug,
+            autoSEO: useAutoSEO,
+            autoInternalLinks: useAutoLinks,
+            metaTitle,
+            metaDescription,
+            metaKeywords,
+            manualSEO: parsedManualSEO,
+            manualLinks: parsedManualLinks,
+            processedContent,
+            internalLinksApplied,
         };
 
-        if (image && typeof image === 'object' && 'name' in image) {
-            const file = image as unknown as File;
-            const arrayBuffer = await file.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
-            const fileId = await uploadFile(buffer, file.name, file.type);
-            updateData.image = `/api/images/${fileId}`;
-        } else if (typeof image === 'string') {
-            // If it's a raw ID and not a path, prefix it
-            if (image && !image.startsWith('/') && !image.startsWith('http')) {
-                updateData.image = `/api/images/${image}`;
-            } else {
-                updateData.image = image;
-            }
-        }
-
-        // Remove undefined fields
+        // Remove undefined fields to avoid overwriting with null
         Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
 
         const blog = await Blog.findByIdAndUpdate(params.id, updateData, { new: true });

@@ -23,6 +23,8 @@ export interface IBlog {
         noFollow?: boolean;
     };
     manualLinks?: any[];
+    processedContent?: string;
+    internalLinksApplied?: string[];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -31,7 +33,7 @@ const BlogSchema = new Schema<IBlog>(
     {
         title: { type: String, required: true },
         content: { type: String, required: true },
-        excerpt: { type: String, required: true },
+        excerpt: { type: String },
         image: { type: String, required: true },
         author: { type: String, required: true },
         featured: { type: Boolean, default: false },
@@ -51,6 +53,8 @@ const BlogSchema = new Schema<IBlog>(
             noFollow: Boolean,
         },
         manualLinks: { type: Array },
+        processedContent: { type: String },
+        internalLinksApplied: { type: [String], default: [] },
     },
     { timestamps: true }
 );

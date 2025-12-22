@@ -9,6 +9,8 @@ interface Blog {
     _id: string;
     title: string;
     excerpt: string;
+    content?: string;
+    processedContent?: string;
     image: string;
     author: string;
     featured: boolean;

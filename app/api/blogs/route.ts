@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import Blog from '@/models/Blog';
 import { uploadFile } from '@/lib/gridfs';
+import { generateSEOMetadata } from '@/lib/seo-utils';
+import { generateInternalLinks } from '@/lib/internal-linking';
+import SEOConfig from '@/models/SEOConfig';
+import InternalLinkMapping from '@/models/InternalLinkMapping';
 
 const connectDB = async () => {
     if (mongoose.connections[0].readyState) return;
@@ -28,6 +32,7 @@ export async function POST(request: Request) {
         await connectDB();
 
         let title, content, excerpt, author, featured, image;
+        let autoSEO, autoInternalLinks, manualSEO, manualLinks;
 
         const contentType = request.headers.get('content-type') || '';
         if (contentType.includes('application/json')) {
@@ -38,6 +43,10 @@ export async function POST(request: Request) {
             author = body.author;
             featured = body.featured;
             image = body.image;
+            autoSEO = body.autoSEO;
+            autoInternalLinks = body.autoInternalLinks;
+            manualSEO = body.manualSEO;
+            manualLinks = body.manualLinks;
         } else {
             const formData = await request.formData();
             title = formData.get('title') as string;
@@ -46,6 +55,10 @@ export async function POST(request: Request) {
             author = formData.get('author') as string;
             featured = formData.get('featured') === 'true';
             image = formData.get('image');
+            autoSEO = formData.get('autoSEO');
+            autoInternalLinks = formData.get('autoInternalLinks');
+            manualSEO = formData.get('manualSEO');
+            manualLinks = formData.get('manualLinks');
         }
 
         let imageUrl = '';
@@ -65,12 +78,94 @@ export async function POST(request: Request) {
             }
         }
 
-        // Generating a slug from title
-        const slug = (title || '')
-            .toLowerCase()
-            .replace(/[^a-z0-9\u0600-\u06FF]+/g, '-') // Allow Arabic chars
-            .replace(/^-+|-+$/g, '')
-            || `blog-${Date.now()}`;
+        // Get global config
+        let config = await SEOConfig.findOne({ configKey: 'global' });
+        if (!config) {
+            config = new SEOConfig({ configKey: 'global' });
+            await config.save();
+        }
+
+        // Determine if we should use auto features (global && per-post flags)
+        // Convert string 'true'/'false' if coming from FormData
+        const autoSEOBool = typeof autoSEO === 'string' ? autoSEO === 'true' : (autoSEO !== undefined ? autoSEO : true);
+        const autoInternalLinksBool = typeof autoInternalLinks === 'string' ? autoInternalLinks === 'true' : (autoInternalLinks !== undefined ? autoInternalLinks : true);
+
+        const useAutoSEO = autoSEOBool && config.globalAutoSEO;
+        const useAutoLinks = autoInternalLinksBool && config.globalAutoInternalLinks;
+
+        // Generate SEO metadata (only if auto is enabled)
+        let slug = '';
+        let metaTitle = '';
+        let metaDescription = '';
+        let metaKeywords: string[] = [];
+
+        if (useAutoSEO) {
+            const seoMetadata = generateSEOMetadata(title, content, excerpt);
+            slug = seoMetadata.slug;
+            metaTitle = seoMetadata.metaTitle;
+            metaDescription = seoMetadata.metaDescription;
+            metaKeywords = seoMetadata.metaKeywords;
+        } else {
+            // Use manual slug if provided in manualSEO or generate simple one
+            let manualSlug = '';
+            if (manualSEO) {
+                const parsed = typeof manualSEO === 'string' ? JSON.parse(manualSEO) : manualSEO;
+                manualSlug = parsed.slug;
+            }
+            slug = manualSlug || (title || '')
+                .toLowerCase()
+                .replace(/[^a-z0-9\u0600-\u06FF\s-]/g, '')
+                .replace(/[\s_-]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                || `blog-${Date.now()}`;
+        }
+
+        // Ensure unique slug
+        let uniqueSlug = slug;
+        let slugCounter = 1;
+        while (await Blog.findOne({ slug: uniqueSlug })) {
+            uniqueSlug = `${slug}-${slugCounter}`;
+            slugCounter++;
+        }
+
+        // Parse manual links if provided as JSON string
+        let parsedManualLinks = [];
+        if (manualLinks) {
+            try {
+                parsedManualLinks = typeof manualLinks === 'string' ? JSON.parse(manualLinks) : manualLinks;
+            } catch (e) {
+                console.error('Failed to parse manualLinks:', e);
+            }
+        }
+
+        // Generate internal links (auto + manual merge or manual only)
+        let processedContent = content;
+        let internalLinksApplied: string[] = [];
+
+        if (useAutoLinks || parsedManualLinks.length > 0) {
+            const autoLinkMappings = useAutoLinks ? await InternalLinkMapping.find({ isActive: true }) : [];
+
+            const linkResult = generateInternalLinks({
+                content,
+                autoLinks: autoLinkMappings,
+                manualLinks: parsedManualLinks,
+                useAutoLinks,
+                maxLinksPerPost: config.maxInternalLinksPerPost,
+            });
+
+            processedContent = linkResult.processedContent;
+            internalLinksApplied = linkResult.linksApplied;
+        }
+
+        // Parse manual SEO if provided as JSON string
+        let parsedManualSEO = {};
+        if (manualSEO) {
+            try {
+                parsedManualSEO = typeof manualSEO === 'string' ? JSON.parse(manualSEO) : manualSEO;
+            } catch (e) {
+                console.error('Failed to parse manualSEO:', e);
+            }
+        }
 
         const newBlog = new Blog({
             title,
@@ -79,7 +174,16 @@ export async function POST(request: Request) {
             author,
             featured: featured === true || featured === 'true',
             image: imageUrl,
-            slug,
+            slug: uniqueSlug,
+            autoSEO: useAutoSEO,
+            autoInternalLinks: useAutoLinks,
+            metaTitle,
+            metaDescription,
+            metaKeywords,
+            manualSEO: parsedManualSEO,
+            manualLinks: parsedManualLinks,
+            processedContent,
+            internalLinksApplied,
         });
 
         await newBlog.save();

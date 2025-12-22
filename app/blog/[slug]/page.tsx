@@ -12,7 +12,15 @@ interface Props {
 
 async function getBlog(slug: string) {
     await connectDB();
-    const blog = await Blog.findOne({ slug }).lean();
+    // Try finding by exact match (could be encoded or not)
+    let blog = await Blog.findOne({ slug }).lean();
+
+    // If not found, try decoded
+    if (!blog) {
+        const decodedSlug = decodeURIComponent(slug);
+        blog = await Blog.findOne({ slug: decodedSlug }).lean();
+    }
+
     if (!blog) return null;
     return JSON.parse(JSON.stringify(blog));
 }
