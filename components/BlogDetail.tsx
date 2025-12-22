@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -34,6 +36,11 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
         });
     };
 
+    // Fix for scroll position on mobile
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <article className="min-h-screen bg-black text-white pt-24 pb-20">
             {/* Hero Banner */}
@@ -51,13 +58,11 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                                 {language === 'ar' ? 'مميز' : 'Featured'}
                             </span>
                         )}
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                        <h1
                             className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
                         >
                             {blog.title}
-                        </motion.h1>
+                        </h1>
                         <div className="flex flex-wrap items-center justify-center gap-6 text-gray-300 text-sm md:text-base">
                             <span className="flex items-center gap-2">
                                 <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
@@ -91,6 +96,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                     </div>
 
                     <div
+                        suppressHydrationWarning={true}
                         className="prose prose-lg prose-invert max-w-none 
                 prose-headings:text-white prose-p:text-gray-300 prose-a:text-yellow-500 hover:prose-a:text-yellow-400 
                 prose-strong:text-white prose-li:text-gray-300 
