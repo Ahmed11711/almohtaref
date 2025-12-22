@@ -18,6 +18,12 @@ interface Blog {
     internalLinksApplied?: string[];
     createdAt: string;
     updatedAt: string;
+    titleEn?: string;
+    titleAr?: string;
+    contentEn?: string;
+    contentAr?: string;
+    excerptEn?: string;
+    excerptAr?: string;
 }
 
 interface BlogDetailProps {
@@ -35,7 +41,9 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
         });
     };
 
-
+    const displayTitle = (language === 'en' && blog.titleEn) ? blog.titleEn : (language === 'ar' && blog.titleAr) ? blog.titleAr : blog.title;
+    const displayExcerpt = (language === 'en' && blog.excerptEn) ? blog.excerptEn : (language === 'ar' && blog.excerptAr) ? blog.excerptAr : blog.excerpt;
+    const displayContent = (language === 'en' && blog.contentEn) ? blog.contentEn : ((language === 'ar' && blog.contentAr) ? blog.contentAr : (blog.processedContent || blog.content));
 
     return (
         <article className="min-h-screen bg-black text-white pt-24 pb-20">
@@ -44,7 +52,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                 <div className="absolute inset-0 bg-black/60 z-10" />
                 <img
                     src={blog.image || '/placeholder-blog.jpg'}
-                    alt={blog.title}
+                    alt={displayTitle}
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 z-20 flex items-center justify-center">
@@ -57,7 +65,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                         <h1
                             className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
                         >
-                            {blog.title}
+                            {displayTitle}
                         </h1>
                         <div className="flex flex-wrap items-center justify-center gap-6 text-gray-300 text-sm md:text-base">
                             <span className="flex items-center gap-2">
@@ -65,7 +73,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                                 {blog.author}
                             </span>
                             <span>|</span>
-                            <span>{formatDate(blog.createdAt)}</span>
+                            <span suppressHydrationWarning>{formatDate(blog.createdAt)}</span>
                         </div>
                     </div>
                 </div>
@@ -88,7 +96,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                 {/* Content */}
                 <div className="bg-zinc-900/50 backdrop-blur rounded-2xl p-6 md:p-12 border border-zinc-800">
                     <div className="text-xl md:text-2xl font-light text-gray-300 mb-10 leading-relaxed border-l-4 border-yellow-500 pl-6 italic">
-                        {blog.excerpt}
+                        {displayExcerpt}
                     </div>
 
                     <div
@@ -97,26 +105,11 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                 prose-headings:text-white prose-p:text-gray-300 prose-a:text-yellow-500 hover:prose-a:text-yellow-400 
                 prose-strong:text-white prose-li:text-gray-300 
                 [&_.internal-link]:text-yellow-500 [&_.internal-link]:font-semibold [&_.internal-link]:no-underline hover:[&_.internal-link]:underline"
-                        dangerouslySetInnerHTML={{ __html: blog.processedContent || blog.content }} // Use processedContent if available for internal links
+                        dangerouslySetInnerHTML={{ __html: displayContent }} // Use processedContent if available for internal links
                     />
                 </div>
 
-                {/* Internal Links Applied (for debugging - remove in production) */}
-                {blog.internalLinksApplied && blog.internalLinksApplied.length > 0 && (
-                    <div className="mt-8 p-6 bg-zinc-900/30 rounded-lg border border-zinc-800">
-                        <h3 className="text-sm font-medium text-gray-400 mb-2">Internal Links Applied (Debug):</h3>
-                        <div className="flex flex-wrap gap-2">
-                            {blog.internalLinksApplied.map((keyword, index) => (
-                                <span
-                                    key={index}
-                                    className="inline-block bg-zinc-800 px-3 py-1 rounded-full text-sm text-gray-300 border border-zinc-700"
-                                >
-                                    {keyword}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
+
 
                 {/* Share / Tags (Placeholder) */}
                 <div className="mt-12 pt-8 border-t border-zinc-800 flex justify-between items-center">

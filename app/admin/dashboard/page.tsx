@@ -61,8 +61,14 @@ interface GalleryImage {
 interface Blog {
   _id: string;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   excerpt: string;
+  excerptEn?: string;
+  excerptAr?: string;
   content: string;
+  contentEn?: string;
+  contentAr?: string;
   image: string;
   author: string;
   featured: boolean;
@@ -2606,28 +2612,90 @@ function FormModal({
           {type === 'blogs' && (
             <>
               <FormInput
-                label="Title"
+                label="Default Title (Required)"
                 value={data.title || ''}
                 onChange={(value) => updateField('title', value)}
               />
-              <div>
-                <label className="block text-sm text-white/70 mb-2">Excerpt</label>
-                <textarea
-                  value={data.excerpt || ''}
-                  onChange={(e) => updateField('excerpt', e.target.value)}
-                  rows={2}
-                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+
+              {/* English Content */}
+              <div className="border-t border-white/10 pt-4 mt-4">
+                <h3 className="text-lg font-semibold text-[#FFDD00] mb-4">English Content</h3>
+                <FormInput
+                  label="English Title"
+                  value={data.titleEn || ''}
+                  onChange={(value) => updateField('titleEn', value)}
                 />
+                <div className="mt-4">
+                  <label className="block text-sm text-white/70 mb-2">English Excerpt</label>
+                  <textarea
+                    value={data.excerptEn || ''}
+                    onChange={(e) => updateField('excerptEn', e.target.value)}
+                    rows={2}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm text-white/70 mb-2">English Content (HTML allowed)</label>
+                  <textarea
+                    value={data.contentEn || ''}
+                    onChange={(e) => updateField('contentEn', e.target.value)}
+                    rows={8}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200 font-mono text-sm"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm text-white/70 mb-2">Content (HTML allowed)</label>
-                <textarea
-                  value={data.content || ''}
-                  onChange={(e) => updateField('content', e.target.value)}
-                  rows={8}
-                  className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200 font-mono text-sm"
+
+              {/* Arabic Content */}
+              <div className="border-t border-white/10 pt-4 mt-4">
+                <h3 className="text-lg font-semibold text-[#FFDD00] mb-4">Arabic Content</h3>
+                <FormInput
+                  label="Arabic Title"
+                  value={data.titleAr || ''}
+                  onChange={(value) => updateField('titleAr', value)}
                 />
+                <div className="mt-4">
+                  <label className="block text-sm text-white/70 mb-2">Arabic Excerpt</label>
+                  <textarea
+                    value={data.excerptAr || ''}
+                    onChange={(e) => updateField('excerptAr', e.target.value)}
+                    rows={2}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm text-white/70 mb-2">Arabic Content (HTML allowed)</label>
+                  <textarea
+                    value={data.contentAr || ''}
+                    onChange={(e) => updateField('contentAr', e.target.value)}
+                    rows={8}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200 font-mono text-sm"
+                  />
+                </div>
               </div>
+
+              {/* Fallback Content */}
+              <div className="border-t border-white/10 pt-4 mt-4 mb-4">
+                <h3 className="text-lg font-semibold text-gray-400 mb-4">Fallback Content</h3>
+                <div>
+                  <label className="block text-sm text-white/70 mb-2">Excerpt</label>
+                  <textarea
+                    value={data.excerpt || ''}
+                    onChange={(e) => updateField('excerpt', e.target.value)}
+                    rows={2}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm text-white/70 mb-2">Content (HTML allowed)</label>
+                  <textarea
+                    value={data.content || ''}
+                    onChange={(e) => updateField('content', e.target.value)}
+                    rows={8}
+                    className="w-full bg-gray-800/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FFDD00] focus:shadow-lg focus:shadow-[#FFDD00]/20 transition-all duration-200 font-mono text-sm"
+                  />
+                </div>
+              </div>
+
               <FormInput
                 label="Author"
                 value={data.author || ''}

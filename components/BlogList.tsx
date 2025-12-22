@@ -84,7 +84,7 @@ export default function BlogList({ initialBlogs }: BlogListProps) {
 
                                 <div className="p-6">
                                     <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                                        <span>{formatDate(blog.createdAt)}</span>
+                                        <span suppressHydrationWarning>{formatDate(blog.createdAt)}</span>
                                         <span className="text-yellow-500">{blog.author}</span>
                                     </div>
 

@@ -35,15 +35,21 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         await connectDB();
         const { id } = params;
 
-        let title, content, excerpt, author, featured, image;
+        let title, titleEn, titleAr, content, contentEn, contentAr, excerpt, excerptEn, excerptAr, author, featured, image;
         let autoSEO, autoInternalLinks, manualSEO, manualLinks;
 
         const contentType = request.headers.get('content-type') || '';
         if (contentType.includes('application/json')) {
             const body = await request.json();
             title = body.title;
+            titleEn = body.titleEn;
+            titleAr = body.titleAr;
             content = body.content;
+            contentEn = body.contentEn;
+            contentAr = body.contentAr;
             excerpt = body.excerpt;
+            excerptEn = body.excerptEn;
+            excerptAr = body.excerptAr;
             author = body.author;
             featured = body.featured;
             image = body.image;
@@ -54,8 +60,14 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         } else {
             const formData = await request.formData();
             title = formData.get('title') as string;
+            titleEn = formData.get('titleEn') as string;
+            titleAr = formData.get('titleAr') as string;
             content = formData.get('content') as string;
+            contentEn = formData.get('contentEn') as string;
+            contentAr = formData.get('contentAr') as string;
             excerpt = formData.get('excerpt') as string;
+            excerptEn = formData.get('excerptEn') as string;
+            excerptAr = formData.get('excerptAr') as string;
             author = formData.get('author') as string;
             featured = formData.get('featured') === 'true';
             image = formData.get('image');
@@ -164,8 +176,14 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
         const updateData: any = {
             title,
+            titleEn,
+            titleAr,
             content,
+            contentEn,
+            contentAr,
             excerpt,
+            excerptEn,
+            excerptAr,
             author,
             featured: featured === true || featured === 'true',
             image: imageUrl,
