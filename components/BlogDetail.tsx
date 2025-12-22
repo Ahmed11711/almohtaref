@@ -52,7 +52,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
     const displayContent = (language === 'en' && blog.contentEn) ? blog.contentEn : ((language === 'ar' && blog.contentAr) ? blog.contentAr : (blog.processedContent || blog.content));
 
     return (
-        <article className="min-h-screen bg-black text-white pt-24 pb-20 overflow-x-hidden w-full">
+        <article className="min-h-screen bg-black text-white pt-32 pb-20 overflow-x-hidden w-full">
             {/* Hero Banner */}
             <div className="relative w-full h-[40vh] md:h-[60vh] max-h-[600px] mb-8 md:mb-12">
                 <div className="absolute inset-0 bg-black/60 z-10" />
@@ -91,7 +91,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                 <div className="mb-8">
                     <Link
                         href="/blog"
-                        className="inline-flex items-center text-yellow-500 hover:text-yellow-400 transition-colors"
+                        className="inline-flex items-center text-yellow-500 hover:text-yellow-400 transition-colors p-2 -ml-2"
                     >
                         <span className={`text-xl ${language === 'ar' ? 'ml-2' : 'mr-2'}`}>
                             {language === 'ar' ? '←' : '←'}
@@ -101,9 +101,9 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
                 </div>
 
                 {/* Content */}
-                <div className="bg-zinc-900/50 backdrop-blur rounded-2xl p-5 md:p-12 border border-zinc-800 overflow-hidden">
+                <div className="bg-zinc-900/50 backdrop-blur rounded-2xl p-5 md:p-12 border border-zinc-800 overflow-x-auto min-w-0">
                     <div
-                        className="text-lg md:text-2xl font-light text-gray-300 mb-8 md:mb-10 leading-relaxed border-l-4 border-yellow-500 pl-4 md:pl-6 italic"
+                        className="text-lg md:text-2xl font-light text-gray-300 mb-8 md:mb-10 leading-relaxed border-l-4 border-yellow-500 pl-4 md:pl-6 italic break-words"
                         suppressHydrationWarning
                     >
                         {displayExcerpt}
@@ -111,7 +111,7 @@ export default function BlogDetail({ blog }: BlogDetailProps) {
 
                     <div
                         suppressHydrationWarning={true}
-                        className="blog-content prose prose-invert md:prose-lg max-w-none 
+                        className="blog-content prose prose-invert md:prose-lg max-w-none w-full break-words
                 prose-headings:text-white prose-p:text-gray-300 prose-a:text-yellow-500 hover:prose-a:text-yellow-400 
                 prose-strong:text-white prose-li:text-gray-300 
                 [&_.internal-link]:text-yellow-500 [&_.internal-link]:font-semibold [&_.internal-link]:no-underline hover:[&_.internal-link]:underline
