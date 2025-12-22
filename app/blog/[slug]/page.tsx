@@ -13,18 +13,32 @@ interface Props {
 }
 
 async function getBlog(slug: string) {
-    await connectDB();
-    // Try finding by exact match (could be encoded or not)
-    let blog = await Blog.findOne({ slug }).lean();
+    try {
+        await connectDB();
 
-    // If not found, try decoded
-    if (!blog) {
-        const decodedSlug = decodeURIComponent(slug);
-        blog = await Blog.findOne({ slug: decodedSlug }).lean();
+        // 1. Try exact match
+        let blog = await Blog.findOne({ slug }).lean();
+
+        // 2. Try simple decode
+        if (!blog) {
+            const decodedSlug = decodeURIComponent(slug);
+            blog = await Blog.findOne({ slug: decodedSlug }).lean();
+        }
+
+        // 3. Try double decode fallback for some mobile browsers
+        if (!blog) {
+            try {
+                const doubleDecoded = decodeURIComponent(decodeURIComponent(slug));
+                blog = await Blog.findOne({ slug: doubleDecoded }).lean();
+            } catch (e) { }
+        }
+
+        if (!blog) return null;
+        return JSON.parse(JSON.stringify(blog));
+    } catch (error) {
+        console.error("Error in getBlog:", error);
+        return null;
     }
-
-    if (!blog) return null;
-    return JSON.parse(JSON.stringify(blog));
 }
 
 export async function generateMetadata(
@@ -35,7 +49,7 @@ export async function generateMetadata(
 
     if (!blog) {
         return {
-            title: 'Not Found',
+            title: 'المقال غير موجود',
         };
     }
 

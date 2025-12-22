@@ -97,12 +97,13 @@ body {
   width: 100%;
 }
 
-/* Ensure all containers respect viewport */
-* {
+/* Ensure all containers respect viewport without breaking layout */
+html, body {
+  overflow-x: hidden;
   max-width: 100%;
 }
 
-img, video, iframe {
+img, video, iframe, canvas, svg, table {
   max-width: 100%;
   height: auto;
 }
