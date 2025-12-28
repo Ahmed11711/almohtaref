@@ -80,4 +80,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <url>
+    <loc>hhttps://almohtaref-sa.com/blog/%D8%B4%D8%B1%D9%83%D8%A9-%D9%81%D8%AA%D8%AD-%D9%83%D9%88%D8%B1-%D8%A8%D8%AC%D8%AF%D8%A9</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
