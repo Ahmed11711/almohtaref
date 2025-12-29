@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- الصفحة الرئيسية -->
   <url>
     <loc>https://almohtaref-sa.com/</loc>
     <lastmod>2025-03-15</lastmod>
@@ -8,6 +9,7 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- الصفحات الأساسية -->
   <url>
     <loc>https://almohtaref-sa.com/about</loc>
     <lastmod>2025-03-15</lastmod>
@@ -83,6 +85,14 @@
 
   <url>
     <loc>https://almohtaref-sa.com/blog/%D8%B4%D8%B1%D9%83%D8%A9-%D9%81%D8%AA%D8%AD-%D9%83%D9%88%D8%B1-%D8%A8%D8%AC%D8%AF%D8%A9</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقال الجديد -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/%D8%B4%D8%B1%D9%83%D8%A9-%D9%82%D8%B5-%D8%AC%D8%AF%D8%B1%D8%A7%D9%86-%D8%A8%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D8%B1-%D8%A7%D9%84%D9%84%D9%8A%D8%B2%D8%B1-%D8%A8%D8%AC%D8%AF%D8%A9</loc>
     <lastmod>2025-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
