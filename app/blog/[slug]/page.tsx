@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import connectDB from '@/lib/mongodb';
 import Blog from '@/models/Blog';
 import BlogDetail from '@/components/BlogDetail';
+import Footer from '@/components/Footer';
 import { generateSEOMetadata } from '@/lib/seo-utils';
 import { notFound } from 'next/navigation';
 
