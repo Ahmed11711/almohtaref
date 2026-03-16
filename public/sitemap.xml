@@ -298,5 +298,27 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://almohtaref-sa.com/blog/قص-وتخريم-الخرسانة-خاص-خاص-9660548677162-المحترف</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 2: حي العزيزية -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/قص-وتخريم-الخرسانة-بجدة-حي-العزيزية-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 3: حي الربوة -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/افضل-خدمات-قص-وتخريم-الخرسانة-بجدة-حي-الربوة-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>
