@@ -350,5 +350,66 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- المقالة 1: حي النزهه -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/قص-وتخريم-الخرسانة-بجدة-حي-النزهه-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 2: حي الجامعة -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/شركة-تخريم-وقص-الخرسانة-بجدة-حي-الجامعة-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 3: حي البلد -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/افضل-خدمات-قص-وتخريم-الخرسانة-بجدة-حي-البلد-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 4: حي كيلو 14 -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/خدمات-قص-وتخريم-الخرسانة-بجدة-حي-كيلو-14-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 5: حي كيلو 7 -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/اسرع-شركة-قص-وتخريم-الخرسانة-بجدة-حي-كيلو-7-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 6: حي مدائن الفهد -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/خدمات-قص-وتخريم-الخرسانة-والكور-بجدة-حي-مدائن-الفهد-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://almohtaref-sa.com/blog/فني-قص-وتخريم-الخرسانة-بجدة-حي-قويسة-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 2 -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/فني-قص-وتخريم-الخرسانة-بجدة-حي-السنابل-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>
