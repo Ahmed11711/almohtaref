@@ -441,5 +441,28 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- المقالة 1 -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/قص-خرسانة-في-جدة-مع-المحترف-قص-وتخريم-خرسانة-جدة-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 2 -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/عمل-قص-خرسانة-في-جدة-مع-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- المقالة 3 -->
+  <url>
+    <loc>https://almohtaref-sa.com/blog/قص-خرسانة-جدة-مع-المحترف-9660548677162</loc>
+    <lastmod>2025-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>
