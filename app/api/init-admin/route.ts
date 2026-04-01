@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Admin from '@/models/Admin';
-
+export const dynamic = 'force-dynamic';
 export async function GET() {
   await connectDB();
   // الموديل بيشفر الباسورد أوتوماتيك لو استخدمت .save() أو .create()
